@@ -1,0 +1,12 @@
+bin/
+obj/
+.vs/
+*.user
+
+# Local-dev-only secrets — never baked into the image; production config comes from
+# Render's environment variables.
+appsettings.Development.json
+
+**/.git
+**/.gitignore
+**/*.md

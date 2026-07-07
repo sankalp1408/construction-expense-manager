@@ -1,0 +1,52 @@
+<div class="header-row">
+  <h1 class="page-title">{{ 'users.title' | translate }}</h1>
+  <button mat-flat-button color="primary" (click)="openCreateDialog()">
+    <mat-icon>person-add</mat-icon>
+    {{ 'users.addManager' | translate }}
+  </button>
+</div>
+
+<div class="table-scroll">
+<table mat-table [dataSource]="users()" class="mat-elevation-z1 full-width">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>{{ 'common.name' | translate }}</th>
+    <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="mobileNumber">
+    <th mat-header-cell *matHeaderCellDef>{{ 'users.mobileNumber' | translate }}</th>
+    <td mat-cell *matCellDef="let user">{{ user.mobileNumber }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="role">
+    <th mat-header-cell *matHeaderCellDef>{{ 'users.role' | translate }}</th>
+    <td mat-cell *matCellDef="let user">{{ ('users.role' + user.role) | translate }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>{{ 'common.status' | translate }}</th>
+    <td mat-cell *matCellDef="let user">
+      <mat-chip [color]="user.isActive ? 'primary' : 'warn'" [highlighted]="true">
+        {{ (user.isActive ? 'common.active' : 'common.inactive') | translate }}
+      </mat-chip>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let user">
+      <button mat-icon-button (click)="openEditDialog(user)" aria-label="Edit">
+        <mat-icon>edit</mat-icon>
+      </button>
+      @if (user.role !== 'SuperAdmin') {
+        <button mat-icon-button (click)="deactivate(user)" aria-label="Deactivate">
+          <mat-icon>block</mat-icon>
+        </button>
+      }
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+</div>

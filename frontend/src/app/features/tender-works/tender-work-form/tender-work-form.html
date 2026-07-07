@@ -1,0 +1,85 @@
+<h2 mat-dialog-title>{{ (isEditMode ? 'tender.editTitle' : 'tender.newTitle') | translate }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content class="form-grid">
+    <mat-form-field appearance="outline" class="span-2">
+      <mat-label>{{ 'tender.tenderName' | translate }}</mat-label>
+      <input matInput formControlName="tenderName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="span-2">
+      <mat-label>{{ 'tender.nameOfWork' | translate }}</mat-label>
+      <input matInput formControlName="nameOfWork" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'tender.tenderAmount' | translate }}</mat-label>
+      <input matInput type="number" formControlName="tenderAmount" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'tender.tenderFee' | translate }}</mat-label>
+      <input matInput type="number" formControlName="tenderFee" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'tender.tenderEMD' | translate }}</mat-label>
+      <input matInput type="number" formControlName="tenderEMD" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'tender.tenderFilingAmount' | translate }}</mat-label>
+      <input matInput type="number" formControlName="tenderFilingAmount" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'tender.gstTotal' | translate }}</mat-label>
+      <input matInput type="number" formControlName="gstTotal" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'tender.billedGst' | translate }}</mat-label>
+      <input matInput type="number" formControlName="billedGst" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'tender.extraGstBill' | translate }}</mat-label>
+      <input matInput type="number" formControlName="extraGstBill" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'tender.workExpenditure' | translate }}</mat-label>
+      <input matInput type="number" formControlName="workExpenditure" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'tender.securityDepositPercent' | translate }}</mat-label>
+      <input matInput type="number" formControlName="securityDepositPercent" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'tender.officeProtocolPercent' | translate }}</mat-label>
+      <input matInput type="number" formControlName="officeProtocolPercent" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'tender.corporatorName' | translate }}</mat-label>
+      <input matInput formControlName="corporatorName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'tender.corporatorProtocolPercent' | translate }}</mat-label>
+      <input matInput type="number" formControlName="corporatorProtocolPercent" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'tender.gstBillCommission' | translate }}</mat-label>
+      <input matInput type="number" formControlName="gstBillCommission" />
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancel()">{{ 'common.cancel' | translate }}</button>
+    <button mat-flat-button color="primary" type="submit">{{ 'common.save' | translate }}</button>
+  </mat-dialog-actions>
+</form>

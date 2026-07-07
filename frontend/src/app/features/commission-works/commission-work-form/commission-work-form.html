@@ -1,0 +1,50 @@
+<h2 mat-dialog-title>{{ (isEditMode ? 'commission.editTitle' : 'commission.newTitle') | translate }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content class="form-grid">
+    <mat-form-field appearance="outline" class="span-2">
+      <mat-label>{{ 'commission.workName' | translate }}</mat-label>
+      <input matInput formControlName="workName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="span-2">
+      <mat-label>{{ 'commission.partyName' | translate }}</mat-label>
+      <input matInput formControlName="partyName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'commission.tenderWorkAmount' | translate }}</mat-label>
+      <input matInput type="number" formControlName="tenderWorkAmount" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'commission.commissionPercent' | translate }}</mat-label>
+      <input matInput type="number" formControlName="commissionPercent" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'commission.gstAmount' | translate }}</mat-label>
+      <input matInput type="number" formControlName="gstAmount" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'tender.billedGst' | translate }}</mat-label>
+      <input matInput type="number" formControlName="billedGst" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'tender.extraGstBill' | translate }}</mat-label>
+      <input matInput type="number" formControlName="extraGstBill" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'tender.gstBillCommission' | translate }}</mat-label>
+      <input matInput type="number" formControlName="gstBillCommission" />
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancel()">{{ 'common.cancel' | translate }}</button>
+    <button mat-flat-button color="primary" type="submit">{{ 'common.save' | translate }}</button>
+  </mat-dialog-actions>
+</form>

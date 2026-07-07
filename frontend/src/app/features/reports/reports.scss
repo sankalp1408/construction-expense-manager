@@ -1,0 +1,85 @@
+.page-title {
+  margin: 4px 0 16px;
+  font-size: 1.4rem;
+}
+
+.filter-card {
+  margin-bottom: 16px;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.fy-field {
+  min-width: 160px;
+}
+
+.period-toggle {
+  flex-wrap: wrap;
+  width: 100%;
+
+  ::ng-deep .mat-button-toggle {
+    flex: 1 1 0;
+    min-width: 48px;
+  }
+}
+
+.period-label {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  margin-bottom: 12px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 960px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.stat-card {
+  padding: 16px;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.section-card {
+  padding: 16px;
+}
+
+.section-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.empty-text {
+  opacity: 0.6;
+  text-align: center;
+  padding: 12px 0 0;
+}

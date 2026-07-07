@@ -1,0 +1,35 @@
+services:
+  # ----- Backend: .NET Web API as a Docker web service -----
+  - name: construction-expense-api
+    type: web
+    runtime: docker
+    plan: free
+    rootDir: backend/ConstructionExpenseManager.Api
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      # Paste the Neon Postgres connection string here (Render prompts for this on first deploy).
+      # Format: Host=<neon-host>;Port=5432;Database=<db>;Username=<user>;Password=<password>;Ssl Mode=Require;Trust Server Certificate=true
+      - key: ConnectionStrings__DefaultConnection
+        sync: false
+      # Paste a long random string here (NOT the placeholder in appsettings.json).
+      - key: Jwt__Secret
+        sync: false
+      # Paste the frontend's live Render URL here once it's deployed, e.g. https://construction-expense-frontend.onrender.com
+      - key: Cors__AllowedOrigins__0
+        sync: false
+
+  # ----- Frontend: Angular SPA as a static site -----
+  - name: construction-expense-frontend
+    type: web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist/frontend/browser
+    routes:
+      # SPA fallback so client-side routes (e.g. /tender-works/5) don't 404 on refresh.
+      - type: rewrite
+        source: /*
+        destination: /index.html

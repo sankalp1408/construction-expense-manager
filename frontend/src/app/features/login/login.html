@@ -1,0 +1,37 @@
+<div class="login-page">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>{{ 'common.appName' | translate }}</mat-card-title>
+      <mat-card-subtitle>{{ 'login.subtitle' | translate }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'login.mobileNumber' | translate }}</mat-label>
+          <input matInput formControlName="mobileNumber" inputmode="numeric" maxlength="10" [placeholder]="'login.mobileNumberPlaceholder' | translate" autofocus />
+          @if (form.controls.mobileNumber.hasError('required') && form.controls.mobileNumber.touched) {
+            <mat-error>{{ 'login.mobileRequired' | translate }}</mat-error>
+          }
+          @if (form.controls.mobileNumber.hasError('pattern') && form.controls.mobileNumber.touched) {
+            <mat-error>{{ 'login.mobileInvalid' | translate }}</mat-error>
+          }
+        </mat-form-field>
+
+        @if (errorKey(); as key) {
+          <p class="error-text">{{ key | translate }}</p>
+        }
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-flat-button color="primary" class="full-width" type="submit" [disabled]="loading()">
+          @if (loading()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            {{ 'login.signIn' | translate }}
+          }
+        </button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</div>

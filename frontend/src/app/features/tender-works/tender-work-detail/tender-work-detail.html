@@ -1,0 +1,167 @@
+@if (work(); as w) {
+  <div class="header-row">
+    <button mat-icon-button (click)="goBack()" aria-label="Back" class="back-button"><mat-icon>arrow_back</mat-icon></button>
+    <div class="header-titles">
+      <h1 class="page-title">{{ w.tenderName }}</h1>
+      <div class="page-subtitle">{{ w.nameOfWork }}</div>
+    </div>
+    <div class="header-actions">
+      <button mat-icon-button (click)="editWork()" aria-label="Edit"><mat-icon>edit</mat-icon></button>
+      @if (isSuperAdmin()) {
+        <button mat-icon-button (click)="deleteWork()" aria-label="Delete"><mat-icon>delete</mat-icon></button>
+      }
+    </div>
+  </div>
+
+  <mat-card class="section-card">
+    <div class="section-title">{{ 'tender.financialSummary' | translate }}</div>
+    <div class="figure-grid">
+      <div><span class="figure-label">{{ 'tender.tenderAmount' | translate }}</span><span class="figure-value">{{ w.tenderAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'tender.tenderFee' | translate }}</span><span class="figure-value">{{ w.tenderFee | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'tender.tenderEMD' | translate }}</span><span class="figure-value">{{ w.tenderEMD | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'tender.tenderFilingAmount' | translate }}</span><span class="figure-value">{{ w.tenderFilingAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'tender.gstTotal' | translate }}</span><span class="figure-value">{{ w.gstTotal | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'tender.billedGst' | translate }}</span><span class="figure-value">{{ w.billedGst | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'tender.extraGstBill' | translate }}</span><span class="figure-value">{{ w.extraGstBill | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'tender.billedAmountLabel' | translate }}</span><span class="figure-value highlight">{{ w.billedAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'tender.workExpenditure' | translate }}</span><span class="figure-value">{{ w.workExpenditure | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'tender.securityDeposit' | translate }} ({{ w.securityDepositPercent }}%)</span><span class="figure-value">{{ w.securityDepositAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'tender.officeProtocol' | translate }} ({{ w.officeProtocolPercent }}%)</span><span class="figure-value">{{ w.officeProtocolAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'tender.corporator' | translate }} ({{ w.corporatorName }}, {{ w.corporatorProtocolPercent }}%)</span><span class="figure-value">{{ w.corporatorProtocolAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'tender.gstBillCommission' | translate }}</span><span class="figure-value">{{ w.gstBillCommission | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'tender.gstFiling' | translate }}</span><span class="figure-value">{{ w.gstFiling | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'tender.profit' | translate }}</span><span class="figure-value highlight" [class.negative]="w.profit < 0">{{ w.profit | currency:'INR':'symbol':'1.0-0' }}</span></div>
+    </div>
+  </mat-card>
+
+  <mat-card class="section-card">
+    <div class="section-header">
+      <div class="section-title">{{ 'tender.raBillsSection' | translate }}</div>
+      <button mat-stroked-button color="primary" (click)="addRaBill()">
+        <mat-icon>add</mat-icon> {{ 'tender.addRaBill' | translate }}
+      </button>
+    </div>
+
+    <div class="table-scroll">
+      <table mat-table [dataSource]="raBills()">
+        <ng-container matColumnDef="raBillNumber">
+          <th mat-header-cell *matHeaderCellDef>{{ 'tender.raBillNumberShort' | translate }}</th>
+          <td mat-cell *matCellDef="let b">{{ b.raBillNumber }}</td>
+        </ng-container>
+        <ng-container matColumnDef="billDate">
+          <th mat-header-cell *matHeaderCellDef>{{ 'common.date' | translate }}</th>
+          <td mat-cell *matCellDef="let b">{{ b.billDate | date:'dd-MMM-yyyy' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="billedAmount">
+          <th mat-header-cell *matHeaderCellDef>{{ 'tender.billedAmountLabel' | translate }}</th>
+          <td mat-cell *matCellDef="let b">{{ b.billedAmount | currency:'INR':'symbol':'1.0-0' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="corporatorCommissionAmount">
+          <th mat-header-cell *matHeaderCellDef>{{ 'tender.corporatorShort' | translate }}</th>
+          <td mat-cell *matCellDef="let b">{{ b.corporatorCommissionAmount | currency:'INR':'symbol':'1.0-0' }} ({{ b.corporatorCommissionPercent }}%)</td>
+        </ng-container>
+        <ng-container matColumnDef="officerCommissionAmount">
+          <th mat-header-cell *matHeaderCellDef>{{ 'tender.officerShort' | translate }}</th>
+          <td mat-cell *matCellDef="let b">{{ b.officerCommissionAmount | currency:'INR':'symbol':'1.0-0' }} ({{ b.officerCommissionPercent }}%)</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let b">
+            <button mat-icon-button (click)="editRaBill(b)" aria-label="Edit"><mat-icon>edit</mat-icon></button>
+            @if (isSuperAdmin()) {
+              <button mat-icon-button (click)="deleteRaBill(b)" aria-label="Delete"><mat-icon>delete</mat-icon></button>
+            }
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="raBillColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: raBillColumns;"></tr>
+      </table>
+      @if (raBills().length === 0) {
+        <p class="empty-text">{{ 'tender.noRaBills' | translate }}</p>
+      }
+    </div>
+  </mat-card>
+
+  <mat-card class="section-card">
+    <div class="section-header">
+      <div class="section-title">{{ 'tender.gstVendorSection' | translate }}</div>
+      <button mat-stroked-button color="primary" (click)="addGstVendor()">
+        <mat-icon>add</mat-icon> {{ 'tender.addVendorEntry' | translate }}
+      </button>
+    </div>
+
+    @if (gstLedger(); as ledger) {
+      <div class="figure-grid totals-row">
+        <div><span class="figure-label">{{ 'tender.totalGstBilled' | translate }}</span><span class="figure-value">{{ ledger.totalGstBilled | currency:'INR':'symbol':'1.0-0' }}</span></div>
+        <div><span class="figure-label">{{ 'tender.totalCommissionPaid' | translate }}</span><span class="figure-value">{{ ledger.totalCommissionAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+        <div><span class="figure-label">{{ 'tender.totalCashReceivedBack' | translate }}</span><span class="figure-value">{{ ledger.totalReceivedBack | currency:'INR':'symbol':'1.0-0' }}</span></div>
+        <div><span class="figure-label">{{ 'tender.totalPendingFromVendors' | translate }}</span><span class="figure-value" [class.negative]="ledger.totalPendingFromVendors > 0">{{ ledger.totalPendingFromVendors | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      </div>
+
+      @for (entry of ledger.entries; track entry.id) {
+        <mat-expansion-panel class="vendor-panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ entry.vendorName }}</mat-panel-title>
+            <mat-panel-description>
+              {{ entry.sentDate | date:'dd-MMM-yyyy' }}
+              @if (entry.pendingAmount > 0) {
+                <mat-chip class="pending-chip" [highlighted]="true" color="warn">
+                  {{ 'gstVendor.pending' | translate }}: {{ entry.pendingAmount | currency:'INR':'symbol':'1.0-0' }}
+                </mat-chip>
+              }
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div class="figure-grid category-figures">
+            <div><span class="figure-label">{{ 'tender.gstBillAmount' | translate }}</span><span class="figure-value">{{ entry.gstBillAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+            <div><span class="figure-label">{{ 'gstVendor.commissionAmount' | translate }} ({{ entry.commissionPercent }}%)</span><span class="figure-value">{{ entry.commissionAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+            <div><span class="figure-label">{{ 'tender.netPaid' | translate }}</span><span class="figure-value">{{ entry.netPayable | currency:'INR':'symbol':'1.0-0' }}</span></div>
+            <div><span class="figure-label">{{ 'gstVendor.totalReceivedSoFar' | translate }}</span><span class="figure-value">{{ entry.totalReceivedSoFar | currency:'INR':'symbol':'1.0-0' }}</span></div>
+            <div><span class="figure-label">{{ 'gstVendor.pendingAmount' | translate }}</span><span class="figure-value highlight" [class.negative]="entry.pendingAmount > 0">{{ entry.pendingAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+          </div>
+
+          <div class="category-actions">
+            <button mat-button (click)="editGstVendor(entry)"><mat-icon>edit</mat-icon> {{ 'common.edit' | translate }}</button>
+            @if (isSuperAdmin()) {
+              <button mat-button color="warn" (click)="deleteGstVendor(entry)"><mat-icon>delete</mat-icon> {{ 'common.delete' | translate }}</button>
+            }
+            <button mat-button color="primary" (click)="addRepayment(entry)"><mat-icon>add</mat-icon> {{ 'gstVendor.addRepayment' | translate }}</button>
+          </div>
+
+          <div class="table-scroll">
+            <table mat-table [dataSource]="entry.repayments">
+              <ng-container matColumnDef="receivedDate">
+                <th mat-header-cell *matHeaderCellDef>{{ 'gstVendor.receivedDate' | translate }}</th>
+                <td mat-cell *matCellDef="let r">{{ r.receivedDate | date:'dd-MMM-yyyy' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="amountReceived">
+                <th mat-header-cell *matHeaderCellDef>{{ 'gstVendor.amountReceived' | translate }}</th>
+                <td mat-cell *matCellDef="let r">{{ r.amountReceived | currency:'INR':'symbol':'1.0-0' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="mode">
+                <th mat-header-cell *matHeaderCellDef>{{ 'gstVendor.mode' | translate }}</th>
+                <td mat-cell *matCellDef="let r">{{ ('gstVendor.mode' + r.mode) | translate }}</td>
+              </ng-container>
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let r">
+                  <button mat-icon-button (click)="editRepayment(entry, r)" aria-label="Edit"><mat-icon>edit</mat-icon></button>
+                  @if (isSuperAdmin()) {
+                    <button mat-icon-button (click)="deleteRepayment(entry, r)" aria-label="Delete"><mat-icon>delete</mat-icon></button>
+                  }
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="repaymentColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: repaymentColumns;"></tr>
+            </table>
+            @if (entry.repayments.length === 0) {
+              <p class="empty-text">{{ 'gstVendor.noRepayments' | translate }}</p>
+            }
+          </div>
+        </mat-expansion-panel>
+      } @empty {
+        <p class="empty-text">{{ 'tender.noVendorEntries' | translate }}</p>
+      }
+    }
+  </mat-card>
+}

@@ -1,0 +1,8 @@
+bin/
+obj/
+*.user
+.vs/
+
+# Contains real local-dev DB credentials — never commit. Production config comes from
+# Render's environment variables (ConnectionStrings__DefaultConnection, Jwt__Secret, etc).
+appsettings.Development.json

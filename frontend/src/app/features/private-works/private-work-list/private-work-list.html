@@ -1,0 +1,32 @@
+<div class="header-row">
+  <h1 class="page-title">{{ 'privateWork.listTitle' | translate }}</h1>
+</div>
+
+<div class="card-list">
+  @for (work of works(); track work.id) {
+    <mat-card class="work-card" (click)="openDetail(work)">
+      <div class="card-title">{{ work.clientName }}</div>
+      <div class="card-subtitle">{{ work.workDescription }}</div>
+      <div class="card-figures">
+        <div>
+          <span class="figure-label">{{ 'privateWork.totalAmount' | translate }}</span>
+          <span class="figure-value">{{ work.totalAmount | currency:'INR':'symbol':'1.0-0' }}</span>
+        </div>
+        <div>
+          <span class="figure-label">{{ 'privateWork.pendingToReceive' | translate }}</span>
+          <span class="figure-value">{{ work.pendingToReceive | currency:'INR':'symbol':'1.0-0' }}</span>
+        </div>
+        <div>
+          <span class="figure-label">{{ 'privateWork.inHand' | translate }}</span>
+          <span class="figure-value">{{ work.inHandAmount | currency:'INR':'symbol':'1.0-0' }}</span>
+        </div>
+      </div>
+    </mat-card>
+  } @empty {
+    <p class="empty-text">{{ 'privateWork.empty' | translate }}</p>
+  }
+</div>
+
+<button mat-fab color="primary" class="fab-add" (click)="openCreateDialog()" aria-label="Add private work">
+  <mat-icon>add</mat-icon>
+</button>

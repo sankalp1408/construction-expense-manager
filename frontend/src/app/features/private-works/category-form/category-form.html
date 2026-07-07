@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>{{ (isEditMode ? 'category.editTitle' : 'category.addTitle') | translate }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content class="form-grid">
+    <mat-form-field appearance="outline" class="span-2">
+      <mat-label>{{ 'category.category' | translate }}</mat-label>
+      <input matInput formControlName="categoryName" [matAutocomplete]="auto" [placeholder]="'category.categoryPlaceholder' | translate" />
+      <mat-autocomplete #auto="matAutocomplete">
+        @for (preset of categoryPresets; track preset) {
+          <mat-option [value]="preset">{{ preset }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="span-2">
+      <mat-label>{{ 'category.workerName' | translate }}</mat-label>
+      <input matInput formControlName="workerName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'category.rateBasis' | translate }}</mat-label>
+      <input matInput formControlName="rateBasis" [placeholder]="'category.rateBasisPlaceholder' | translate" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'category.agreedTotalAmount' | translate }}</mat-label>
+      <input matInput type="number" formControlName="agreedTotalAmount" />
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancel()">{{ 'common.cancel' | translate }}</button>
+    <button mat-flat-button color="primary" type="submit">{{ 'common.save' | translate }}</button>
+  </mat-dialog-actions>
+</form>

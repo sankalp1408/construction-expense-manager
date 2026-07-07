@@ -1,0 +1,80 @@
+<h1 class="page-title">{{ 'reports.title' | translate }}</h1>
+
+<mat-card class="filter-card">
+  <mat-card-content class="filter-row">
+    <mat-form-field appearance="outline" class="fy-field">
+      <mat-label>{{ 'reports.financialYear' | translate }}</mat-label>
+      <mat-select [(ngModel)]="fyStartYear" (selectionChange)="load()">
+        @for (opt of fyOptions; track opt.value) {
+          <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-button-toggle-group [(ngModel)]="period" (change)="load()" class="period-toggle">
+      @for (p of periods; track p.value) {
+        <mat-button-toggle [value]="p.value">{{ p.value === 'Yearly' ? ('reports.periodYearly' | translate) : p.label }}</mat-button-toggle>
+      }
+    </mat-button-toggle-group>
+  </mat-card-content>
+</mat-card>
+
+@if (report(); as r) {
+  <div class="period-label">{{ periodDisplayLabel() }} &middot; {{ r.fromDate | date:'dd-MMM-yyyy' }} to {{ r.toDate | date:'dd-MMM-yyyy' }}</div>
+
+  <div class="summary-grid">
+    <mat-card class="stat-card">
+      <div class="stat-label">{{ 'reports.totalTurnover' | translate }}</div>
+      <div class="stat-value">{{ r.totalTurnover | currency:'INR':'symbol':'1.0-0' }}</div>
+    </mat-card>
+    <mat-card class="stat-card">
+      <div class="stat-label">{{ 'reports.totalGst' | translate }}</div>
+      <div class="stat-value">{{ r.totalGst | currency:'INR':'symbol':'1.0-0' }}</div>
+    </mat-card>
+    <mat-card class="stat-card">
+      <div class="stat-label">{{ 'reports.gstBillTaken' | translate }}</div>
+      <div class="stat-value">{{ r.totalVendorGstBilled | currency:'INR':'symbol':'1.0-0' }}</div>
+    </mat-card>
+    <mat-card class="stat-card">
+      <div class="stat-label">{{ 'reports.gstCommissionGiven' | translate }}</div>
+      <div class="stat-value">{{ r.totalVendorCommission | currency:'INR':'symbol':'1.0-0' }}</div>
+    </mat-card>
+    <mat-card class="stat-card">
+      <div class="stat-label">{{ 'reports.gstFiledToGovt' | translate }}</div>
+      <div class="stat-value">{{ r.totalGstFiled | currency:'INR':'symbol':'1.0-0' }}</div>
+    </mat-card>
+  </div>
+
+  <mat-card class="section-card">
+    <div class="section-title">{{ 'reports.vendorWiseReport' | translate }}</div>
+    <div class="table-scroll">
+      <table mat-table [dataSource]="r.vendorReports">
+        <ng-container matColumnDef="vendorName">
+          <th mat-header-cell *matHeaderCellDef>{{ 'common.vendor' | translate }}</th>
+          <td mat-cell *matCellDef="let v">{{ v.vendorName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="totalGstBillAmount">
+          <th mat-header-cell *matHeaderCellDef>{{ 'reports.gstBillsTaken' | translate }}</th>
+          <td mat-cell *matCellDef="let v">{{ v.totalGstBillAmount | currency:'INR':'symbol':'1.0-0' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="totalCommission">
+          <th mat-header-cell *matHeaderCellDef>{{ 'reports.commissionCharged' | translate }}</th>
+          <td mat-cell *matCellDef="let v">{{ v.totalCommission | currency:'INR':'symbol':'1.0-0' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="totalPaidToVendor">
+          <th mat-header-cell *matHeaderCellDef>{{ 'reports.amountPaid' | translate }}</th>
+          <td mat-cell *matCellDef="let v">{{ v.totalPaidToVendor | currency:'INR':'symbol':'1.0-0' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="totalCashReturned">
+          <th mat-header-cell *matHeaderCellDef>{{ 'reports.cashReturned' | translate }}</th>
+          <td mat-cell *matCellDef="let v">{{ v.totalCashReturned | currency:'INR':'symbol':'1.0-0' }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="vendorColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: vendorColumns;"></tr>
+      </table>
+      @if (r.vendorReports.length === 0) {
+        <p class="empty-text">{{ 'reports.noVendorEntries' | translate }}</p>
+      }
+    </div>
+  </mat-card>
+}

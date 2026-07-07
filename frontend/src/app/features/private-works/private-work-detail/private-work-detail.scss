@@ -1,0 +1,116 @@
+.header-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.back-button {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.header-titles {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.page-subtitle {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.header-actions {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.section-card {
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+.figure-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+
+  @media (min-width: 700px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.category-figures {
+  margin: 12px 0;
+}
+
+.figure-label {
+  display: block;
+  font-size: 0.72rem;
+  opacity: 0.6;
+}
+
+.figure-value {
+  display: block;
+  font-weight: 600;
+
+  &.highlight {
+    color: #1a5f2e;
+  }
+
+  &.negative {
+    color: #b00020;
+  }
+}
+
+.money-flow-card {
+  border-left: 4px solid #1a5f2e;
+}
+
+.money-flow-grid {
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.category-panel {
+  margin-bottom: 8px;
+}
+
+.category-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.empty-text {
+  opacity: 0.6;
+  text-align: center;
+  padding: 12px 0 0;
+}

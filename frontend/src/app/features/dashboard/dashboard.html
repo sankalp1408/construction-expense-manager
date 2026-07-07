@@ -1,0 +1,117 @@
+<h1 class="page-title">{{ 'dashboard.title' | translate }}</h1>
+
+<mat-card class="filter-card">
+  <mat-card-content class="filter-row">
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>{{ 'dashboard.fromDate' | translate }}</mat-label>
+      <input matInput [matDatepicker]="fromPicker" [(ngModel)]="fromDate" />
+      <mat-datepicker-toggle matIconSuffix [for]="fromPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fromPicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>{{ 'dashboard.toDate' | translate }}</mat-label>
+      <input matInput [matDatepicker]="toPicker" [(ngModel)]="toDate" />
+      <mat-datepicker-toggle matIconSuffix [for]="toPicker"></mat-datepicker-toggle>
+      <mat-datepicker #toPicker></mat-datepicker>
+    </mat-form-field>
+
+    <div class="filter-actions">
+      <button mat-flat-button color="primary" (click)="load()">{{ 'dashboard.apply' | translate }}</button>
+      <button mat-stroked-button (click)="clearFilters()">{{ 'dashboard.clear' | translate }}</button>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+@if (summary(); as s) {
+  <div class="summary-grid">
+    <mat-card class="stat-card">
+      <div class="stat-label">{{ 'dashboard.totalWorks' | translate }}</div>
+      <div class="stat-value">{{ s.totalWorkCount }}</div>
+      <div class="stat-breakdown">
+        {{ 'dashboard.breakdown' | translate:{ tender: s.tenderWorkCount, commission: s.commissionWorkCount, private: s.privateWorkCount } }}
+      </div>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <div class="stat-label">{{ 'dashboard.totalTenderProfit' | translate }}</div>
+      <div class="stat-value">{{ s.totalTenderProfit | currency:'INR':'symbol':'1.0-0' }}</div>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <div class="stat-label">{{ 'dashboard.totalCommissionEarned' | translate }}</div>
+      <div class="stat-value">{{ s.totalCommissionEarned | currency:'INR':'symbol':'1.0-0' }}</div>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <div class="stat-label">{{ 'dashboard.pendingPaymentsPrivate' | translate }}</div>
+      <div class="stat-value">{{ s.totalPrivatePendingPayments | currency:'INR':'symbol':'1.0-0' }}</div>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <div class="stat-label">{{ 'dashboard.totalTenderBilled' | translate }}</div>
+      <div class="stat-value">{{ s.totalTenderBilledAmount | currency:'INR':'symbol':'1.0-0' }}</div>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <div class="stat-label">{{ 'dashboard.totalPrivateValue' | translate }}</div>
+      <div class="stat-value">{{ s.totalPrivateWorkAmount | currency:'INR':'symbol':'1.0-0' }}</div>
+    </mat-card>
+  </div>
+
+  <mat-card class="section-card">
+    <div class="section-title">{{ 'dashboard.section1Title' | translate }}</div>
+    <div class="figure-grid">
+      <div><span class="figure-label">{{ 'dashboard.totalTenderAmount' | translate }}</span><span class="figure-value">{{ s.tenderSummary.totalTenderAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.totalBillReceived' | translate }}</span><span class="figure-value">{{ s.tenderSummary.totalBillReceived | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.totalExpense' | translate }}</span><span class="figure-value">{{ s.tenderSummary.totalExpense | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.totalGstLabel' | translate }}</span><span class="figure-value">{{ s.tenderSummary.totalGst | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.totalBilledGst' | translate }}</span><span class="figure-value">{{ s.tenderSummary.totalBilledGst | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.extraGstTaken' | translate }}</span><span class="figure-value">{{ s.tenderSummary.extraGstTaken | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.gstFilingLabel' | translate }}</span><span class="figure-value">{{ s.tenderSummary.gstFiling | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.totalCommissionForGst' | translate }}</span><span class="figure-value">{{ s.tenderSummary.totalCommissionForGst | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.profitLabel' | translate }}</span><span class="figure-value highlight" [class.negative]="s.tenderSummary.profit < 0">{{ s.tenderSummary.profit | currency:'INR':'symbol':'1.0-0' }}</span></div>
+    </div>
+  </mat-card>
+
+  <mat-card class="section-card">
+    <div class="section-title">{{ 'dashboard.section2Title' | translate }}</div>
+    <div class="figure-grid">
+      <div><span class="figure-label">{{ 'dashboard.totalTenderAmount' | translate }}</span><span class="figure-value">{{ s.commissionSummary.totalTenderAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.totalBillReceived' | translate }}</span><span class="figure-value">{{ s.commissionSummary.totalBillReceived | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.commissionAmountLabel' | translate }}</span><span class="figure-value">{{ s.commissionSummary.commissionAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.totalGstLabel' | translate }}</span><span class="figure-value">{{ s.commissionSummary.totalGst | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.totalBilledGst' | translate }}</span><span class="figure-value">{{ s.commissionSummary.totalBilledGst | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.extraGstTaken' | translate }}</span><span class="figure-value">{{ s.commissionSummary.extraGstTaken | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.gstFilingLabel' | translate }}</span><span class="figure-value">{{ s.commissionSummary.gstFiling | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.totalCommissionForGst' | translate }}</span><span class="figure-value">{{ s.commissionSummary.totalCommissionForGst | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.profitLabel' | translate }}</span><span class="figure-value highlight" [class.negative]="s.commissionSummary.profit < 0">{{ s.commissionSummary.profit | currency:'INR':'symbol':'1.0-0' }}</span></div>
+    </div>
+  </mat-card>
+
+  <mat-card class="section-card">
+    <div class="section-title">{{ 'dashboard.section3Title' | translate }}</div>
+    <div class="figure-grid">
+      <div><span class="figure-label">{{ 'dashboard.totalWorkAmount' | translate }}</span><span class="figure-value">{{ s.privateWorkSummary.totalWorkAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.paymentReceived' | translate }}</span><span class="figure-value">{{ s.privateWorkSummary.paymentReceived | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.totalExpense' | translate }}</span><span class="figure-value">{{ s.privateWorkSummary.totalExpense | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.profitLabel' | translate }}</span><span class="figure-value highlight" [class.negative]="s.privateWorkSummary.profit < 0">{{ s.privateWorkSummary.profit | currency:'INR':'symbol':'1.0-0' }}</span></div>
+    </div>
+  </mat-card>
+
+  <mat-card class="section-card">
+    <div class="section-title">{{ 'dashboard.section4Title' | translate }}</div>
+    <div class="figure-grid">
+      <div><span class="figure-label">{{ 'dashboard.totalPayment' | translate }}</span><span class="figure-value">{{ s.overallSummary.totalPayment | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.totalPaymentReceived' | translate }}</span><span class="figure-value">{{ s.overallSummary.totalPaymentReceived | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.totalPaymentBalance' | translate }}</span><span class="figure-value">{{ s.overallSummary.totalPaymentBalance | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.totalGstLabel' | translate }}</span><span class="figure-value">{{ s.overallSummary.totalGst | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.extraGstTaken' | translate }}</span><span class="figure-value">{{ s.overallSummary.totalExtraGstTaken | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.totalCommissionForGst' | translate }}</span><span class="figure-value">{{ s.overallSummary.totalGstCommission | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.gstFilingLabel' | translate }}</span><span class="figure-value">{{ s.overallSummary.totalGstFiling | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'dashboard.totalProfit' | translate }}</span><span class="figure-value highlight" [class.negative]="s.overallSummary.totalProfit < 0">{{ s.overallSummary.totalProfit | currency:'INR':'symbol':'1.0-0' }}</span></div>
+    </div>
+  </mat-card>
+} @else if (loading()) {
+  <p>{{ 'common.loading' | translate }}</p>
+}

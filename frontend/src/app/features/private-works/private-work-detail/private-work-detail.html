@@ -1,0 +1,202 @@
+@if (work(); as w) {
+  <div class="header-row">
+    <button mat-icon-button (click)="goBack()" aria-label="Back" class="back-button"><mat-icon>arrow_back</mat-icon></button>
+    <div class="header-titles">
+      <h1 class="page-title">{{ w.clientName }}</h1>
+      <div class="page-subtitle">{{ w.workDescription }}</div>
+    </div>
+    <div class="header-actions">
+      <button mat-icon-button (click)="editWork()" aria-label="Edit"><mat-icon>edit</mat-icon></button>
+      @if (isSuperAdmin()) {
+        <button mat-icon-button (click)="deleteWork()" aria-label="Delete"><mat-icon>delete</mat-icon></button>
+      }
+    </div>
+  </div>
+
+  <mat-card class="section-card money-flow-card">
+    <div class="section-title">{{ 'privateWork.moneyFlowTitle' | translate }}</div>
+    <div class="figure-grid money-flow-grid">
+      <div><span class="figure-label">{{ 'privateWork.totalContractAmount' | translate }}</span><span class="figure-value">{{ w.totalAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'privateWork.totalReceived' | translate }}</span><span class="figure-value">{{ w.totalReceived | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'privateWork.pendingToReceive' | translate }}</span><span class="figure-value">{{ w.pendingToReceive | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'privateWork.totalUsed' | translate }}</span><span class="figure-value">{{ w.totalUsed | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'privateWork.inHandAmount' | translate }}</span><span class="figure-value highlight" [class.negative]="w.inHandAmount < 0">{{ w.inHandAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+    </div>
+  </mat-card>
+
+  <mat-card class="section-card">
+    <div class="section-title">{{ 'privateWork.details' | translate }}</div>
+    <div class="figure-grid">
+      <div><span class="figure-label">{{ 'privateWork.areaSqft' | translate }}</span><span class="figure-value">{{ w.areaSqft }}</span></div>
+      <div><span class="figure-label">{{ 'privateWork.rateSqft' | translate }}</span><span class="figure-value">{{ w.ratePerSqft | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'privateWork.milestonePaid' | translate }}</span><span class="figure-value">{{ w.totalMilestonePaid | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'privateWork.workerPaid' | translate }}</span><span class="figure-value">{{ w.totalWorkerPaid | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'privateWork.workerRemaining' | translate }}</span><span class="figure-value">{{ w.totalWorkerRemaining | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'privateWork.materialTotal' | translate }}</span><span class="figure-value">{{ w.totalMaterialAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+    </div>
+  </mat-card>
+
+  <mat-card class="section-card">
+    <div class="section-header">
+      <div class="section-title">{{ 'privateWork.milestonesSection' | translate }}</div>
+      <button mat-stroked-button color="primary" (click)="addMilestone()">
+        <mat-icon>add</mat-icon> {{ 'privateWork.addMilestone' | translate }}
+      </button>
+    </div>
+
+    <div class="table-scroll">
+      <table mat-table [dataSource]="w.milestones">
+        <ng-container matColumnDef="stageName">
+          <th mat-header-cell *matHeaderCellDef>{{ 'privateWork.stage' | translate }}</th>
+          <td mat-cell *matCellDef="let m">{{ m.stageName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="percentOfTotal">
+          <th mat-header-cell *matHeaderCellDef>%</th>
+          <td mat-cell *matCellDef="let m">{{ m.percentOfTotal }}%</td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef>{{ 'common.amount' | translate }}</th>
+          <td mat-cell *matCellDef="let m">{{ m.amount | currency:'INR':'symbol':'1.0-0' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="paidAmount">
+          <th mat-header-cell *matHeaderCellDef>{{ 'privateWork.paid' | translate }}</th>
+          <td mat-cell *matCellDef="let m">{{ m.paidAmount | currency:'INR':'symbol':'1.0-0' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>{{ 'common.status' | translate }}</th>
+          <td mat-cell *matCellDef="let m">
+            <mat-chip [highlighted]="true" [color]="m.status === 'Paid' ? 'primary' : (m.status === 'Partial' ? 'accent' : 'warn')">
+              {{ ('privateWork.status' + m.status) | translate }}
+            </mat-chip>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let m">
+            <button mat-icon-button (click)="editMilestone(m)" aria-label="Edit"><mat-icon>edit</mat-icon></button>
+            @if (isSuperAdmin()) {
+              <button mat-icon-button (click)="deleteMilestone(m)" aria-label="Delete"><mat-icon>delete</mat-icon></button>
+            }
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="milestoneColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: milestoneColumns;"></tr>
+      </table>
+      @if (w.milestones.length === 0) {
+        <p class="empty-text">{{ 'privateWork.noMilestones' | translate }}</p>
+      }
+    </div>
+  </mat-card>
+
+  <mat-card class="section-card">
+    <div class="section-header">
+      <div class="section-title">{{ 'privateWork.categoriesSection' | translate }}</div>
+      <button mat-stroked-button color="primary" (click)="addCategory()">
+        <mat-icon>add</mat-icon> {{ 'privateWork.addCategory' | translate }}
+      </button>
+    </div>
+
+    @for (category of w.categories; track category.id) {
+      <mat-expansion-panel class="category-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{ category.categoryName }} @if (category.workerName) { &middot; {{ category.workerName }} }</mat-panel-title>
+          <mat-panel-description>
+            {{ 'privateWork.remainingColon' | translate }} {{ category.remainingAmount | currency:'INR':'symbol':'1.0-0' }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="figure-grid category-figures">
+          <div><span class="figure-label">{{ 'privateWork.rateBasis' | translate }}</span><span class="figure-value">{{ category.rateBasis || '-' }}</span></div>
+          <div><span class="figure-label">{{ 'privateWork.agreedTotal' | translate }}</span><span class="figure-value">{{ category.agreedTotalAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+          <div><span class="figure-label">{{ 'privateWork.totalPaid' | translate }}</span><span class="figure-value">{{ category.totalPaid | currency:'INR':'symbol':'1.0-0' }}</span></div>
+          <div><span class="figure-label">{{ 'privateWork.remaining' | translate }}</span><span class="figure-value highlight">{{ category.remainingAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+        </div>
+
+        <div class="category-actions">
+          <button mat-button (click)="editCategory(category)"><mat-icon>edit</mat-icon> {{ 'common.edit' | translate }}</button>
+          @if (isSuperAdmin()) {
+            <button mat-button color="warn" (click)="deleteCategory(category)"><mat-icon>delete</mat-icon> {{ 'privateWork.deleteCategory' | translate }}</button>
+          }
+          <button mat-button color="primary" (click)="addCategoryPayment(category)"><mat-icon>add</mat-icon> {{ 'privateWork.addPayment' | translate }}</button>
+        </div>
+
+        <div class="table-scroll">
+          <table mat-table [dataSource]="category.payments">
+            <ng-container matColumnDef="paymentDate">
+              <th mat-header-cell *matHeaderCellDef>{{ 'common.date' | translate }}</th>
+              <td mat-cell *matCellDef="let p">{{ p.paymentDate | date:'dd-MMM-yyyy' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef>{{ 'common.amount' | translate }}</th>
+              <td mat-cell *matCellDef="let p">{{ p.amount | currency:'INR':'symbol':'1.0-0' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="remarks">
+              <th mat-header-cell *matHeaderCellDef>{{ 'common.remarks' | translate }}</th>
+              <td mat-cell *matCellDef="let p">{{ p.remarks }}</td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let p">
+                <button mat-icon-button (click)="editCategoryPayment(category, p)" aria-label="Edit"><mat-icon>edit</mat-icon></button>
+                @if (isSuperAdmin()) {
+                  <button mat-icon-button (click)="deleteCategoryPayment(category, p)" aria-label="Delete"><mat-icon>delete</mat-icon></button>
+                }
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="paymentColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: paymentColumns;"></tr>
+          </table>
+          @if (category.payments.length === 0) {
+            <p class="empty-text">{{ 'privateWork.noPayments' | translate }}</p>
+          }
+        </div>
+      </mat-expansion-panel>
+    } @empty {
+      <p class="empty-text">{{ 'privateWork.noCategories' | translate }}</p>
+    }
+  </mat-card>
+
+  <mat-card class="section-card">
+    <div class="section-header">
+      <div class="section-title">{{ 'privateWork.materialsSection' | translate }}</div>
+      <button mat-stroked-button color="primary" (click)="addMaterial()">
+        <mat-icon>add</mat-icon> {{ 'privateWork.addMaterial' | translate }}
+      </button>
+    </div>
+
+    <div class="table-scroll">
+      <table mat-table [dataSource]="w.materials">
+        <ng-container matColumnDef="materialName">
+          <th mat-header-cell *matHeaderCellDef>{{ 'privateWork.material' | translate }}</th>
+          <td mat-cell *matCellDef="let m">{{ m.materialName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="vendorName">
+          <th mat-header-cell *matHeaderCellDef>{{ 'common.vendor' | translate }}</th>
+          <td mat-cell *matCellDef="let m">{{ m.vendorName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef>{{ 'common.amount' | translate }}</th>
+          <td mat-cell *matCellDef="let m">{{ m.amount | currency:'INR':'symbol':'1.0-0' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="paymentDate">
+          <th mat-header-cell *matHeaderCellDef>{{ 'common.date' | translate }}</th>
+          <td mat-cell *matCellDef="let m">{{ m.paymentDate | date:'dd-MMM-yyyy' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let m">
+            <button mat-icon-button (click)="editMaterial(m)" aria-label="Edit"><mat-icon>edit</mat-icon></button>
+            @if (isSuperAdmin()) {
+              <button mat-icon-button (click)="deleteMaterial(m)" aria-label="Delete"><mat-icon>delete</mat-icon></button>
+            }
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="materialColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: materialColumns;"></tr>
+      </table>
+      @if (w.materials.length === 0) {
+        <p class="empty-text">{{ 'privateWork.noMaterials' | translate }}</p>
+      }
+    </div>
+  </mat-card>
+}

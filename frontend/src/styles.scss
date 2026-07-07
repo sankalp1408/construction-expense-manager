@@ -1,0 +1,116 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  height: 100%;
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$orange-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+
+  // Cards are forced to solid white with a clearly visible shadow — the M3
+  // token-derived "surface-container" tone was too close to the page
+  // background under an orange primary, so cards barely stood out.
+  @include mat.card-overrides(
+    (
+      elevated-container-shape: 14px,
+      elevated-container-elevation: 0 2px 10px rgba(0, 0, 0, 0.09),
+      elevated-container-color: #ffffff,
+      outlined-container-shape: 14px,
+      outlined-container-color: #ffffff,
+    )
+  );
+
+  // M3 FABs default to a pastel "container" tone rather than a solid primary
+  // color, which made the "+" add buttons nearly invisible against a warm
+  // page background. Force a solid, high-contrast FAB instead.
+  @include mat.fab-overrides(
+    (
+      container-color: var(--mat-sys-primary),
+      foreground-color: var(--mat-sys-on-primary),
+      small-container-color: var(--mat-sys-primary),
+      small-foreground-color: var(--mat-sys-on-primary),
+    )
+  );
+
+  // Add/edit dialogs get the same clean white surface as cards, for a
+  // consistent look across every form in the app.
+  @include mat.dialog-overrides(
+    (
+      container-color: #ffffff,
+      container-shape: 14px,
+    )
+  );
+}
+
+body {
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Deliberately a plain neutral gray, not a theme-derived "surface" tone —
+  // under a warm (orange) primary, the M3 surface tokens are tinted enough
+  // that cards barely stood out against the page. A neutral backdrop keeps
+  // cards and primary-colored controls popping clearly regardless of theme hue.
+  background-color: #f2f2f4;
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+// Consistent hover affordance for anything clickable that isn't already a
+// mat-button (e.g. our list cards) — used via the shared "clickable-card" class.
+.clickable-card {
+  cursor: pointer;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+    transform: translateY(-1px);
+  }
+}
+
+// Shared page-level typography so every screen's heading is visually consistent.
+.page-title {
+  margin: 4px 0 16px;
+  font: var(--mat-sys-title-large);
+  color: var(--mat-sys-on-surface);
+}
+
+// Every data table in the app is wrapped in a ".table-scroll" div so it can
+// scroll horizontally on narrow screens instead of the browser default of
+// squeezing/wrapping cell text until it's unreadable (or clipping the last
+// column entirely). Enforcing a minimum table width forces genuine overflow
+// so the scroll container actually has something to scroll.
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+
+  table {
+    min-width: 640px;
+  }
+
+  th.mat-mdc-header-cell,
+  td.mat-mdc-cell {
+    white-space: nowrap;
+  }
+}

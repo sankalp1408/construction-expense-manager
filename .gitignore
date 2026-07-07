@@ -1,0 +1,6 @@
+# Stray run logs from local manual testing — not part of the project.
+*.log
+
+# OS junk
+.DS_Store
+Thumbs.db

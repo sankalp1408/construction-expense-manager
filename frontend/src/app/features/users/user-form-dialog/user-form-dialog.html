@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>{{ (isEditMode ? 'users.editManager' : 'users.addManager') | translate }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'common.name' | translate }}</mat-label>
+      <input matInput formControlName="name" />
+      @if (form.controls.name.hasError('required') && form.controls.name.touched) {
+        <mat-error>{{ 'users.nameRequired' | translate }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'users.mobileNumber' | translate }}</mat-label>
+      <input matInput formControlName="mobileNumber" inputmode="numeric" maxlength="10" />
+      @if (form.controls.mobileNumber.hasError('required') && form.controls.mobileNumber.touched) {
+        <mat-error>{{ 'login.mobileRequired' | translate }}</mat-error>
+      }
+      @if (form.controls.mobileNumber.hasError('pattern') && form.controls.mobileNumber.touched) {
+        <mat-error>{{ 'login.mobileInvalid' | translate }}</mat-error>
+      }
+    </mat-form-field>
+
+    @if (isEditMode) {
+      <mat-slide-toggle formControlName="isActive">{{ 'users.active' | translate }}</mat-slide-toggle>
+    }
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancel()">{{ 'common.cancel' | translate }}</button>
+    <button mat-flat-button color="primary" type="submit">{{ 'common.save' | translate }}</button>
+  </mat-dialog-actions>
+</form>

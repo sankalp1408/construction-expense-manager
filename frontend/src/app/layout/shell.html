@@ -1,0 +1,67 @@
+<mat-sidenav-container class="shell-container">
+  <mat-sidenav #sidenav [opened]="sidenavOpen()" (openedChange)="sidenavOpen.set($event)" mode="over" class="shell-sidenav">
+    <div class="sidenav-header">
+      <div class="user-name">{{ currentUser()?.name }}</div>
+      <div class="user-role">{{ currentUser()?.role }}</div>
+    </div>
+    <mat-nav-list>
+      @for (item of topItems; track item.path) {
+        <a mat-list-item [routerLink]="item.path" routerLinkActive="active-link" (click)="closeSidenav()">
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.labelKey | translate }}</span>
+        </a>
+      }
+
+      <mat-divider></mat-divider>
+      <h3 matSubheader>{{ 'nav.workTypesHeader' | translate }}</h3>
+      @for (item of workTypeItems; track item.path) {
+        <a mat-list-item [routerLink]="item.path" routerLinkActive="active-link" (click)="closeSidenav()">
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.labelKey | translate }}</span>
+        </a>
+      }
+
+      <mat-divider></mat-divider>
+      @for (item of utilityItems; track item.path) {
+        @if (!item.superAdminOnly || isSuperAdmin()) {
+          <a mat-list-item [routerLink]="item.path" routerLinkActive="active-link" (click)="closeSidenav()">
+            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+            <span matListItemTitle>{{ item.labelKey | translate }}</span>
+          </a>
+        }
+      }
+
+      <mat-divider></mat-divider>
+      <a mat-list-item (click)="logout()">
+        <mat-icon matListItemIcon>logout</mat-icon>
+        <span matListItemTitle>{{ 'nav.logout' | translate }}</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="shell-toolbar">
+      <button mat-icon-button (click)="toggleSidenav()" aria-label="Toggle navigation">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="toolbar-title">{{ 'common.appName' | translate }}</span>
+      <span class="toolbar-spacer"></span>
+      <span class="toolbar-user-name">{{ currentUser()?.name }}</span>
+      <button mat-icon-button [matMenuTriggerFor]="langMenu" aria-label="Change language">
+        <mat-icon>translate</mat-icon>
+      </button>
+      <mat-menu #langMenu="matMenu">
+        <button mat-menu-item (click)="setLanguage('en')" [class.active-lang]="currentLanguage() === 'en'">
+          {{ 'nav.english' | translate }}
+        </button>
+        <button mat-menu-item (click)="setLanguage('mr')" [class.active-lang]="currentLanguage() === 'mr'">
+          {{ 'nav.marathi' | translate }}
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+
+    <main class="shell-main">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

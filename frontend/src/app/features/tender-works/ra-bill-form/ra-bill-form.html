@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>{{ (isEditMode ? 'raBill.editTitle' : 'raBill.addTitle') | translate }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content class="form-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'raBill.raBillNumber' | translate }}</mat-label>
+      <input matInput formControlName="raBillNumber" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'raBill.billDate' | translate }}</mat-label>
+      <input matInput [matDatepicker]="billDatePicker" formControlName="billDate" />
+      <mat-datepicker-toggle matIconSuffix [for]="billDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #billDatePicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'raBill.billedAmount' | translate }}</mat-label>
+      <input matInput type="number" formControlName="billedAmount" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'raBill.corporatorCommissionPercent' | translate }}</mat-label>
+      <input matInput type="number" formControlName="corporatorCommissionPercent" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'raBill.officerCommissionPercent' | translate }}</mat-label>
+      <input matInput type="number" formControlName="officerCommissionPercent" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="span-2">
+      <mat-label>{{ 'common.remarks' | translate }}</mat-label>
+      <input matInput formControlName="remarks" />
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancel()">{{ 'common.cancel' | translate }}</button>
+    <button mat-flat-button color="primary" type="submit">{{ 'common.save' | translate }}</button>
+  </mat-dialog-actions>
+</form>
