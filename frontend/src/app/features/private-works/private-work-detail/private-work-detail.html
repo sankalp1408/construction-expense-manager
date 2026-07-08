@@ -14,18 +14,18 @@
   </div>
 
   <mat-card class="section-card money-flow-card">
-    <div class="section-title">{{ 'privateWork.moneyFlowTitle' | translate }}</div>
+    <div class="section-title"><span class="icon-badge"><mat-icon>account_balance</mat-icon></span>{{ 'privateWork.moneyFlowTitle' | translate }}</div>
     <div class="figure-grid money-flow-grid">
       <div><span class="figure-label">{{ 'privateWork.totalContractAmount' | translate }}</span><span class="figure-value">{{ w.totalAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
-      <div><span class="figure-label">{{ 'privateWork.totalReceived' | translate }}</span><span class="figure-value">{{ w.totalReceived | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'privateWork.totalReceived' | translate }}</span><span class="figure-value" [pulseOnChange]="w.totalReceived">{{ w.totalReceived | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'privateWork.pendingToReceive' | translate }}</span><span class="figure-value">{{ w.pendingToReceive | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'privateWork.totalUsed' | translate }}</span><span class="figure-value">{{ w.totalUsed | currency:'INR':'symbol':'1.0-0' }}</span></div>
-      <div><span class="figure-label">{{ 'privateWork.inHandAmount' | translate }}</span><span class="figure-value highlight" [class.negative]="w.inHandAmount < 0">{{ w.inHandAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'privateWork.inHandAmount' | translate }}</span><span class="figure-value highlight" [class.negative]="w.inHandAmount < 0" [pulseOnChange]="w.inHandAmount">{{ w.inHandAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
     </div>
   </mat-card>
 
   <mat-card class="section-card">
-    <div class="section-title">{{ 'privateWork.details' | translate }}</div>
+    <div class="section-title"><span class="icon-badge"><mat-icon>info</mat-icon></span>{{ 'privateWork.details' | translate }}</div>
     <div class="figure-grid">
       <div><span class="figure-label">{{ 'privateWork.areaSqft' | translate }}</span><span class="figure-value">{{ w.areaSqft }}</span></div>
       <div><span class="figure-label">{{ 'privateWork.rateSqft' | translate }}</span><span class="figure-value">{{ w.ratePerSqft | currency:'INR':'symbol':'1.0-0' }}</span></div>
@@ -39,7 +39,7 @@
 
   <mat-card class="section-card">
     <div class="section-header">
-      <div class="section-title">{{ 'privateWork.milestonesSection' | translate }}</div>
+      <div class="section-title"><span class="icon-badge"><mat-icon>flag</mat-icon></span>{{ 'privateWork.milestonesSection' | translate }}</div>
       <button mat-stroked-button color="primary" (click)="addMilestone()">
         <mat-icon>add</mat-icon> {{ 'privateWork.addMilestone' | translate }}
       </button>
@@ -91,7 +91,7 @@
 
   <mat-card class="section-card">
     <div class="section-header">
-      <div class="section-title">{{ 'privateWork.categoriesSection' | translate }}</div>
+      <div class="section-title"><span class="icon-badge"><mat-icon>engineering</mat-icon></span>{{ 'privateWork.categoriesSection' | translate }}</div>
       <button mat-stroked-button color="primary" (click)="addCategory()">
         <mat-icon>add</mat-icon> {{ 'privateWork.addCategory' | translate }}
       </button>
@@ -159,7 +159,7 @@
 
   <mat-card class="section-card">
     <div class="section-header">
-      <div class="section-title">{{ 'privateWork.materialsSection' | translate }}</div>
+      <div class="section-title"><span class="icon-badge"><mat-icon>inventory_2</mat-icon></span>{{ 'privateWork.materialsSection' | translate }}</div>
       <button mat-stroked-button color="primary" (click)="addMaterial()">
         <mat-icon>add</mat-icon> {{ 'privateWork.addMaterial' | translate }}
       </button>
@@ -211,7 +211,7 @@
 
   <mat-card class="section-card">
     <div class="section-header">
-      <div class="section-title">{{ 'privateWork.departmentalLabourSection' | translate }}</div>
+      <div class="section-title"><span class="icon-badge"><mat-icon>groups</mat-icon></span>{{ 'privateWork.departmentalLabourSection' | translate }}</div>
       <button mat-stroked-button color="primary" (click)="addDepartmentalLabour()">
         <mat-icon>add</mat-icon> {{ 'privateWork.addDepartmentalLabour' | translate }}
       </button>

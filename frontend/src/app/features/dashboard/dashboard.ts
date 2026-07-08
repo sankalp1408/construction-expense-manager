@@ -6,16 +6,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { DashboardService } from '../../core/services/dashboard.service';
 import { DashboardQuery, DashboardSummary } from '../../core/models/dashboard.model';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { PulseOnChangeDirective } from '../../shared/directives/pulse-on-change.directive';
 
 @Component({
   selector: 'app-dashboard',
   imports: [
-    FormsModule, CurrencyPipe, MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule,
-    MatDatepickerModule, TranslatePipe
+    FormsModule, CurrencyPipe, MatCardModule, MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule,
+    MatDatepickerModule, TranslatePipe, PulseOnChangeDirective
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'

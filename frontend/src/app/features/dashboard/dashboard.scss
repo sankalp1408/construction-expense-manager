@@ -1,108 +1,13 @@
-.page-title {
-  margin: 4px 0 16px;
-  font-size: 1.4rem;
-}
-
+// Shared filter-card/stat-tile/section-card/figure-grid chrome lives in the
+// global styles.scss. The Dashboard's filter bar additionally needs to stay
+// sticky while scrolling — that's specific to this page (Reports' filter
+// card isn't sticky), so it stays here.
 .filter-card {
   position: sticky;
   top: 56px;
   z-index: 8;
-  margin-bottom: 16px;
 
   @media (min-width: 600px) {
     top: 64px;
-  }
-}
-
-.filter-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-}
-
-.filter-field {
-  flex: 1 1 140px;
-  min-width: 140px;
-}
-
-.filter-actions {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.summary-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-
-  @media (min-width: 600px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 960px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.stat-card {
-  padding: 16px;
-}
-
-.stat-label {
-  font-size: 0.85rem;
-  opacity: 0.7;
-  margin-bottom: 4px;
-}
-
-.stat-value {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.stat-breakdown {
-  font-size: 0.75rem;
-  opacity: 0.6;
-  margin-top: 4px;
-}
-
-.section-card {
-  padding: 16px;
-  margin-top: 16px;
-}
-
-.section-title {
-  font-weight: 700;
-  font-size: 1.05rem;
-  margin-bottom: 12px;
-}
-
-.figure-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-
-  @media (min-width: 700px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.figure-label {
-  display: block;
-  font-size: 0.72rem;
-  opacity: 0.6;
-}
-
-.figure-value {
-  display: block;
-  font-weight: 600;
-
-  &.highlight {
-    color: #1a5f2e;
-  }
-
-  &.negative {
-    color: #b00020;
   }
 }

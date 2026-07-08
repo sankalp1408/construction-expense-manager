@@ -22,12 +22,13 @@ import { MaterialForm, MaterialFormDialogData } from '../material-form/material-
 import { DepartmentalLabourForm, DepartmentalLabourFormDialogData } from '../departmental-labour-form/departmental-labour-form';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { LanguageService } from '../../../core/services/language.service';
+import { PulseOnChangeDirective } from '../../../shared/directives/pulse-on-change.directive';
 
 @Component({
   selector: 'app-private-work-detail',
   imports: [
     CurrencyPipe, DatePipe, MatCardModule, MatButtonModule, MatIconModule, MatTableModule, MatChipsModule, MatExpansionModule,
-    TranslatePipe
+    TranslatePipe, PulseOnChangeDirective
   ],
   templateUrl: './private-work-detail.html',
   styleUrl: './private-work-detail.scss'

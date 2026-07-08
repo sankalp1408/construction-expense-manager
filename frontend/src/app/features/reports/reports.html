@@ -46,7 +46,7 @@
   </div>
 
   <mat-card class="section-card">
-    <div class="section-title">{{ 'reports.vendorWiseReport' | translate }}</div>
+    <div class="section-title"><span class="icon-badge"><mat-icon>storefront</mat-icon></span>{{ 'reports.vendorWiseReport' | translate }}</div>
     <div class="table-scroll">
       <table mat-table [dataSource]="r.vendorReports">
         <ng-container matColumnDef="vendorName">

@@ -14,7 +14,7 @@
   </div>
 
   <mat-card class="section-card">
-    <div class="section-title">{{ 'tender.financialSummary' | translate }}</div>
+    <div class="section-title"><span class="icon-badge"><mat-icon>account_balance_wallet</mat-icon></span>{{ 'tender.financialSummary' | translate }}</div>
     <div class="figure-grid">
       <div><span class="figure-label">{{ 'tender.tenderAmount' | translate }}</span><span class="figure-value">{{ w.tenderAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'tender.tenderFee' | translate }}</span><span class="figure-value">{{ w.tenderFee | currency:'INR':'symbol':'1.0-0' }}</span></div>
@@ -23,20 +23,20 @@
       <div><span class="figure-label">{{ 'tender.gstTotal' | translate }}</span><span class="figure-value">{{ w.gstTotal | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'tender.billedGst' | translate }}</span><span class="figure-value">{{ w.billedGst | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'tender.extraGstBill' | translate }}</span><span class="figure-value">{{ w.extraGstBill | currency:'INR':'symbol':'1.0-0' }}</span></div>
-      <div><span class="figure-label">{{ 'tender.billedAmountLabel' | translate }}</span><span class="figure-value highlight">{{ w.billedAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'tender.billedAmountLabel' | translate }}</span><span class="figure-value highlight" [pulseOnChange]="w.billedAmount">{{ w.billedAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'tender.workExpenditure' | translate }}</span><span class="figure-value">{{ w.workExpenditure | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'tender.securityDeposit' | translate }} ({{ w.securityDepositPercent }}%)</span><span class="figure-value">{{ w.securityDepositAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'tender.officeProtocol' | translate }}</span><span class="figure-value">{{ w.officeProtocolAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'tender.corporator' | translate }} ({{ w.corporatorName }}, {{ w.corporatorProtocolPercent }}%)</span><span class="figure-value">{{ w.corporatorProtocolAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'tender.gstBillCommission' | translate }}</span><span class="figure-value">{{ w.gstBillCommission | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'tender.gstFiling' | translate }}</span><span class="figure-value">{{ w.gstFiling | currency:'INR':'symbol':'1.0-0' }}</span></div>
-      <div><span class="figure-label">{{ 'tender.profit' | translate }}</span><span class="figure-value highlight" [class.negative]="w.profit < 0">{{ w.profit | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'tender.profit' | translate }}</span><span class="figure-value highlight" [class.negative]="w.profit < 0" [pulseOnChange]="w.profit">{{ w.profit | currency:'INR':'symbol':'1.0-0' }}</span></div>
     </div>
   </mat-card>
 
   <mat-card class="section-card">
     <div class="section-header">
-      <div class="section-title">{{ 'tender.raBillsSection' | translate }}</div>
+      <div class="section-title"><span class="icon-badge"><mat-icon>receipt_long</mat-icon></span>{{ 'tender.raBillsSection' | translate }}</div>
       <button mat-stroked-button color="primary" (click)="addRaBill()">
         <mat-icon>add</mat-icon> {{ 'tender.addRaBill' | translate }}
       </button>
@@ -84,7 +84,7 @@
 
   <mat-card class="section-card">
     <div class="section-header">
-      <div class="section-title">{{ 'tender.gstVendorSection' | translate }}</div>
+      <div class="section-title"><span class="icon-badge"><mat-icon>storefront</mat-icon></span>{{ 'tender.gstVendorSection' | translate }}</div>
       <button mat-stroked-button color="primary" (click)="addGstVendor()">
         <mat-icon>add</mat-icon> {{ 'tender.addVendorEntry' | translate }}
       </button>

@@ -21,12 +21,13 @@ import {
 } from '../../../shared/gst-vendor-repayment-form/gst-vendor-repayment-form';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { LanguageService } from '../../../core/services/language.service';
+import { PulseOnChangeDirective } from '../../../shared/directives/pulse-on-change.directive';
 
 @Component({
   selector: 'app-tender-work-detail',
   imports: [
     CurrencyPipe, DatePipe, MatCardModule, MatButtonModule, MatIconModule, MatTableModule, MatChipsModule,
-    MatExpansionModule, TranslatePipe
+    MatExpansionModule, TranslatePipe, PulseOnChangeDirective
   ],
   templateUrl: './tender-work-detail.html',
   styleUrl: './tender-work-detail.scss'

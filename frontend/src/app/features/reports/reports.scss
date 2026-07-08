@@ -1,19 +1,5 @@
-.page-title {
-  margin: 4px 0 16px;
-  font-size: 1.4rem;
-}
-
-.filter-card {
-  margin-bottom: 16px;
-}
-
-.filter-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-}
-
+// Shared filter-card/stat-tile/section-card chrome lives in the global
+// styles.scss. Only Reports-specific controls remain here.
 .fy-field {
   min-width: 160px;
 }
@@ -30,56 +16,6 @@
 
 .period-label {
   font-size: 0.85rem;
-  opacity: 0.7;
+  color: var(--text-muted);
   margin-bottom: 12px;
-}
-
-.summary-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  margin-bottom: 16px;
-
-  @media (min-width: 600px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 960px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.stat-card {
-  padding: 16px;
-}
-
-.stat-label {
-  font-size: 0.85rem;
-  opacity: 0.7;
-  margin-bottom: 4px;
-}
-
-.stat-value {
-  font-size: 1.4rem;
-  font-weight: 600;
-}
-
-.section-card {
-  padding: 16px;
-}
-
-.section-title {
-  font-weight: 600;
-  font-size: 1rem;
-  margin-bottom: 12px;
-}
-
-.table-scroll {
-  overflow-x: auto;
-}
-
-.empty-text {
-  opacity: 0.6;
-  text-align: center;
-  padding: 12px 0 0;
 }

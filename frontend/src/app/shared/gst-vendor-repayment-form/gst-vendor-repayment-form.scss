@@ -1,15 +1,1 @@
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0 12px;
-  min-width: 280px;
-
-  @media (min-width: 600px) {
-    grid-template-columns: 1fr 1fr;
-    min-width: 420px;
-  }
-}
-
-.span-2 {
-  grid-column: 1 / -1;
-}
+// Shared dialog form grid (.form-grid / .span-2) now lives in global styles.scss.

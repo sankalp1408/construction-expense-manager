@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { ReportService } from '../../core/services/report.service';
@@ -24,8 +25,8 @@ const PERIODS: { value: ReportPeriod; label: string }[] = [
 @Component({
   selector: 'app-reports',
   imports: [
-    FormsModule, CurrencyPipe, DatePipe, MatCardModule, MatFormFieldModule, MatSelectModule, MatButtonToggleModule, MatTableModule,
-    TranslatePipe
+    FormsModule, CurrencyPipe, DatePipe, MatCardModule, MatFormFieldModule, MatIconModule, MatSelectModule, MatButtonToggleModule,
+    MatTableModule, TranslatePipe
   ],
   templateUrl: './reports.html',
   styleUrl: './reports.scss'

@@ -5,6 +5,36 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
+// ---------------------------------------------------------------------------
+// Design tokens — "blueprint teal" direction: a deep teal accent (evoking
+// architectural blueprint ink) on a warm-cool neutral ground, warm rounded
+// cards, and a dedicated positive/negative pair kept separate from the accent
+// so profit/loss stays legible regardless of the theme hue.
+// ---------------------------------------------------------------------------
+:root {
+  --accent: #0e6b62;
+  --accent-strong: #094a44;
+  --accent-soft: #dcefec;
+  --accent-soft-2: #c7e6e1;
+  --bg: #f3f7f6;
+  --surface: #ffffff;
+  --text: #16211f;
+  --text-muted: #5b6b68;
+  --text-faint: #8a9a97;
+  --positive: #1f7a4d;
+  --positive-soft: #e4f4ea;
+  --negative: #b23a3a;
+  --negative-soft: #f8dcdc;
+  --border: #e2e9e7;
+  --shadow-sm: 0 1px 2px rgba(16, 40, 36, 0.06);
+  --shadow-md: 0 8px 24px rgba(16, 40, 36, 0.09);
+  --shadow-lg: 0 20px 48px rgba(16, 40, 36, 0.14);
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-pill: 999px;
+  --font-display: 'Plus Jakarta Sans', 'Segoe UI', Roboto, sans-serif;
+}
+
 html {
   height: 100%;
   @include mat.theme(
@@ -18,22 +48,58 @@ html {
     )
   );
 
-  // Cards are forced to solid white with a clearly visible shadow — the M3
-  // token-derived "surface-container" tone was too close to the page
-  // background under an orange primary, so cards barely stood out.
+  // Re-point the M3 system color tokens at the "blueprint teal" palette above.
+  // Done as plain CSS custom-property overrides (rather than changing the
+  // mat.theme() palette input) so the exact approved hex values apply
+  // regardless of Angular Material's internal tonal-palette generation.
+  --mat-sys-primary: var(--accent);
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-primary-container: var(--accent-soft);
+  --mat-sys-on-primary-container: var(--accent-strong);
+  --mat-sys-secondary: var(--accent);
+  --mat-sys-on-secondary: #ffffff;
+  --mat-sys-secondary-container: var(--accent-soft);
+  --mat-sys-on-secondary-container: var(--accent-strong);
+  --mat-sys-surface: var(--surface);
+  --mat-sys-on-surface: var(--text);
+  --mat-sys-on-surface-variant: var(--text-muted);
+  --mat-sys-surface-container-lowest: #ffffff;
+  --mat-sys-surface-container-low: #f9fbfa;
+  --mat-sys-surface-container: #f2f7f6;
+  --mat-sys-surface-container-high: #eaf2f0;
+  --mat-sys-surface-container-highest: #e2ece9;
+  --mat-sys-background: var(--bg);
+  --mat-sys-on-background: var(--text);
+  --mat-sys-outline: var(--text-faint);
+  --mat-sys-outline-variant: var(--border);
+  --mat-sys-error: var(--negative);
+  --mat-sys-on-error: #ffffff;
+  --mat-sys-error-container: var(--negative-soft);
+  --mat-sys-on-error-container: #6e1f1f;
+
+  // Soften and enlarge the app-wide corner scale a little (chips, menus,
+  // selects, expansion panels all derive their shape from these) — leaves
+  // "full" (circular/pill) untouched.
+  --mat-sys-corner-small: 12px;
+  --mat-sys-corner-medium: 16px;
+  --mat-sys-corner-large: 20px;
+
+  // Cards get soft, large rounded corners and a diffuse shadow instead of a
+  // harsh border — the M3 token-derived "surface-container" tone was too
+  // close to the page background, so cards barely stood out.
   @include mat.card-overrides(
     (
-      elevated-container-shape: 14px,
-      elevated-container-elevation: 0 2px 10px rgba(0, 0, 0, 0.09),
-      elevated-container-color: #ffffff,
-      outlined-container-shape: 14px,
-      outlined-container-color: #ffffff,
+      elevated-container-shape: var(--radius-lg),
+      elevated-container-elevation: var(--shadow-md),
+      elevated-container-color: var(--surface),
+      outlined-container-shape: var(--radius-lg),
+      outlined-container-color: var(--surface),
     )
   );
 
   // M3 FABs default to a pastel "container" tone rather than a solid primary
-  // color, which made the "+" add buttons nearly invisible against a warm
-  // page background. Force a solid, high-contrast FAB instead.
+  // color, which made the "+" add buttons nearly invisible against the page.
+  // Force a solid, high-contrast FAB instead.
   @include mat.fab-overrides(
     (
       container-color: var(--mat-sys-primary),
@@ -43,14 +109,21 @@ html {
     )
   );
 
-  // Add/edit dialogs get the same clean white surface as cards, for a
-  // consistent look across every form in the app.
+  // Add/edit dialogs get the same clean white surface and soft rounding as
+  // cards, for a consistent look across every form in the app.
   @include mat.dialog-overrides(
     (
-      container-color: #ffffff,
-      container-shape: 14px,
+      container-color: var(--surface),
+      container-shape: var(--radius-lg),
     )
   );
+
+  // Pill-shaped buttons for primary/secondary actions across the whole app —
+  // set once here rather than per-button.
+  --mat-button-filled-container-shape: var(--radius-pill);
+  --mat-button-outlined-container-shape: var(--radius-pill);
+  --mat-button-protected-container-shape: var(--radius-pill);
+  --mat-button-text-container-shape: var(--radius-pill);
 }
 
 body {
@@ -59,11 +132,7 @@ body {
   // user's system settings.
   color-scheme: light;
 
-  // Deliberately a plain neutral gray, not a theme-derived "surface" tone —
-  // under a warm (orange) primary, the M3 surface tokens are tinted enough
-  // that cards barely stood out against the page. A neutral backdrop keeps
-  // cards and primary-colored controls popping clearly regardless of theme hue.
-  background-color: #f2f2f4;
+  background-color: var(--bg);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
 
@@ -76,23 +145,35 @@ body {
   box-sizing: border-box;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 // Consistent hover affordance for anything clickable that isn't already a
 // mat-button (e.g. our list cards) — used via the shared "clickable-card" class.
 .clickable-card {
   cursor: pointer;
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
 
   &:hover,
   &:focus-visible {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
-    transform: translateY(-1px);
+    box-shadow: var(--shadow-md) !important;
+    transform: translateY(-2px);
   }
 }
 
 // Shared page-level typography so every screen's heading is visually consistent.
 .page-title {
   margin: 4px 0 16px;
-  font: var(--mat-sys-title-large);
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
   color: var(--mat-sys-on-surface);
 }
 
@@ -104,7 +185,7 @@ body {
   position: sticky;
   top: 56px;
   z-index: 9;
-  background-color: #f2f2f4;
+  background-color: var(--bg);
   padding-block: 8px;
 
   @media (min-width: 600px) {
@@ -128,5 +209,314 @@ body {
   th.mat-mdc-header-cell,
   td.mat-mdc-cell {
     white-space: nowrap;
+    font-variant-numeric: tabular-nums;
   }
+}
+
+// ---------------------------------------------------------------------------
+// Shared detail-page header chrome (back arrow, title, edit/delete actions) —
+// identical across Tender/Commission/Private detail pages, defined once here.
+// ---------------------------------------------------------------------------
+.header-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+}
+.back-button {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.header-titles {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.page-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.header-actions {
+  display: flex;
+  flex-shrink: 0;
+}
+
+// ---------------------------------------------------------------------------
+// Shared section-card chrome — used on every detail/dashboard/reports page.
+// Radius/shadow already comes from the mat-card overrides above; this covers
+// the internal spacing, icon-badge headers, and figure grids.
+// ---------------------------------------------------------------------------
+.section-card {
+  padding: 20px 22px;
+  margin-bottom: 18px;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: rise-in 0.4s ease forwards;
+}
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.02rem;
+  letter-spacing: -0.01em;
+  margin-bottom: 14px;
+}
+.section-header .section-title {
+  margin-bottom: 0;
+}
+
+// Small rounded icon badge that precedes a section title — add
+// `<span class="icon-badge"><mat-icon>...</mat-icon></span>` before the text.
+.icon-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 11px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.figure-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+
+  @media (min-width: 700px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.totals-row {
+  margin-bottom: 16px;
+}
+.figure-label {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.figure-value {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s ease;
+
+  &.highlight {
+    color: var(--positive);
+  }
+
+  &.negative {
+    color: var(--negative);
+  }
+}
+
+.empty-text {
+  color: var(--text-faint);
+  text-align: center;
+  padding: 16px 0 4px;
+}
+
+// Vendor / worker-category expansion panels (Tender & Commission GST
+// sub-ledger, Private Work categories) share the same rhythm.
+.vendor-panel,
+.category-panel {
+  margin-bottom: 10px;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+.category-figures {
+  margin: 14px 0;
+}
+.category-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.pending-chip {
+  margin-left: 8px;
+  font-size: 0.75rem;
+}
+mat-panel-description {
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+// ---------------------------------------------------------------------------
+// Shared list-page card chrome (Tender/Commission/Private work lists).
+// ---------------------------------------------------------------------------
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 88px;
+}
+.work-card {
+  cursor: pointer;
+  padding: 16px 18px;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-sm) !important;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: rise-in 0.4s ease forwards;
+}
+.card-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+}
+.card-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+.card-figures {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.fab-add {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+}
+
+// ---------------------------------------------------------------------------
+// Shared Dashboard / Reports filter bar + stat tiles.
+// ---------------------------------------------------------------------------
+.filter-card {
+  margin-bottom: 18px;
+  border-radius: var(--radius-lg) !important;
+}
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.filter-field {
+  flex: 1 1 140px;
+  min-width: 140px;
+}
+.filter-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 960px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.stat-card {
+  padding: 18px 20px;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-sm) !important;
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: rise-in 0.45s ease forwards;
+
+  &:hover {
+    box-shadow: var(--shadow-md) !important;
+    transform: translateY(-2px);
+  }
+}
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s ease;
+}
+.stat-breakdown {
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  margin-top: 4px;
+}
+
+// Stagger the fade/rise-in of sibling cards a little so a page of tiles
+// doesn't all pop in on the same frame.
+@for $i from 1 through 8 {
+  .summary-grid .stat-card:nth-child(#{$i}),
+  .card-list .work-card:nth-child(#{$i}) {
+    animation-delay: #{$i * 0.05}s;
+  }
+}
+
+@keyframes rise-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// "Dynamic" numbers — apply the `.value-pulse` class briefly (e.g. via the
+// [pulseOnChange] directive) whenever a summary figure's underlying value
+// changes, instead of letting it just snap to the new number.
+// ---------------------------------------------------------------------------
+.value-pulse {
+  animation: value-pulse-ring 0.9s ease;
+  border-radius: var(--radius-md);
+}
+@keyframes value-pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(14, 107, 98, 0.4); }
+  70% { box-shadow: 0 0 0 12px rgba(14, 107, 98, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(14, 107, 98, 0); }
+}
+.value-flash {
+  color: var(--accent-strong) !important;
+}
+
+// ---------------------------------------------------------------------------
+// Shared add/edit dialog form grid — used by every "Add X" / "Edit X" dialog.
+// ---------------------------------------------------------------------------
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px 16px;
+  min-width: 280px;
+
+  @media (min-width: 600px) {
+    grid-template-columns: 1fr 1fr;
+    min-width: 420px;
+  }
+}
+.span-2 {
+  grid-column: 1 / -1;
 }
