@@ -59,7 +59,7 @@
     </mat-card>
   </div>
 
-  <mat-card class="section-card">
+  <mat-card class="section-card clickable-card" (click)="goToTenderWorks()">
     <div class="section-title">{{ 'dashboard.section1Title' | translate }}</div>
     <div class="figure-grid">
       <div><span class="figure-label">{{ 'dashboard.totalTenderAmount' | translate }}</span><span class="figure-value">{{ s.tenderSummary.totalTenderAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
@@ -74,7 +74,7 @@
     </div>
   </mat-card>
 
-  <mat-card class="section-card">
+  <mat-card class="section-card clickable-card" (click)="goToCommissionWorks()">
     <div class="section-title">{{ 'dashboard.section2Title' | translate }}</div>
     <div class="figure-grid">
       <div><span class="figure-label">{{ 'dashboard.totalTenderAmount' | translate }}</span><span class="figure-value">{{ s.commissionSummary.totalTenderAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
@@ -89,7 +89,7 @@
     </div>
   </mat-card>
 
-  <mat-card class="section-card">
+  <mat-card class="section-card clickable-card" (click)="goToPrivateWorks()">
     <div class="section-title">{{ 'dashboard.section3Title' | translate }}</div>
     <div class="figure-grid">
       <div><span class="figure-label">{{ 'dashboard.totalWorkAmount' | translate }}</span><span class="figure-value">{{ s.privateWorkSummary.totalWorkAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>

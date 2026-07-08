@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { PrivateWorkService } from '../../../core/services/private-work.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { PrivateWork } from '../../../core/models/private-work.model';
 import { PrivateWorkForm, PrivateWorkFormDialogData } from '../private-work-form/private-work-form';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
@@ -20,7 +21,9 @@ export class PrivateWorkList {
   private readonly service = inject(PrivateWorkService);
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
 
+  readonly isSuperAdmin = this.authService.isSuperAdmin;
   readonly works = signal<PrivateWork[]>([]);
 
   constructor() {

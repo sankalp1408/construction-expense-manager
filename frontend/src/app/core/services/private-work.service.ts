@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
-  PrivateWork, PrivateWorkCategory, PrivateWorkCategoryPayment, PrivateWorkMaterial, PrivateWorkMilestone,
-  SavePrivateWork, SavePrivateWorkCategory, SavePrivateWorkCategoryPayment, SavePrivateWorkMaterial,
-  SavePrivateWorkMilestone
+  PrivateWork, PrivateWorkCategory, PrivateWorkCategoryPayment, PrivateWorkDepartmentalLabour, PrivateWorkMaterial,
+  PrivateWorkMilestone, SavePrivateWork, SavePrivateWorkCategory, SavePrivateWorkCategoryPayment,
+  SavePrivateWorkDepartmentalLabour, SavePrivateWorkMaterial, SavePrivateWorkMilestone
 } from '../models/private-work.model';
 
 @Injectable({ providedIn: 'root' })
@@ -88,5 +88,19 @@ export class PrivateWorkService {
 
   deleteMaterial(privateWorkId: number, materialId: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${privateWorkId}/materials/${materialId}`);
+  }
+
+  // ----- Departmental Labour -----
+
+  addDepartmentalLabour(privateWorkId: number, dto: SavePrivateWorkDepartmentalLabour): Observable<PrivateWorkDepartmentalLabour> {
+    return this.http.post<PrivateWorkDepartmentalLabour>(`${this.baseUrl}/${privateWorkId}/departmental-labour`, dto);
+  }
+
+  updateDepartmentalLabour(privateWorkId: number, departmentalLabourId: number, dto: SavePrivateWorkDepartmentalLabour): Observable<PrivateWorkDepartmentalLabour> {
+    return this.http.put<PrivateWorkDepartmentalLabour>(`${this.baseUrl}/${privateWorkId}/departmental-labour/${departmentalLabourId}`, dto);
+  }
+
+  deleteDepartmentalLabour(privateWorkId: number, departmentalLabourId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${privateWorkId}/departmental-labour/${departmentalLabourId}`);
   }
 }

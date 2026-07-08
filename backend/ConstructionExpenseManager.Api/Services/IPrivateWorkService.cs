@@ -25,4 +25,8 @@ public interface IPrivateWorkService
     Task<PrivateWorkMaterialDto?> AddMaterialAsync(int privateWorkId, SavePrivateWorkMaterialDto dto);
     Task<PrivateWorkMaterialDto?> UpdateMaterialAsync(int privateWorkId, int materialId, SavePrivateWorkMaterialDto dto);
     Task<bool> DeleteMaterialAsync(int privateWorkId, int materialId);
+
+    Task<PrivateWorkDepartmentalLabourDto?> AddDepartmentalLabourAsync(int privateWorkId, SavePrivateWorkDepartmentalLabourDto dto);
+    Task<PrivateWorkDepartmentalLabourDto?> UpdateDepartmentalLabourAsync(int privateWorkId, int departmentalLabourId, SavePrivateWorkDepartmentalLabourDto dto);
+    Task<bool> DeleteDepartmentalLabourAsync(int privateWorkId, int departmentalLabourId);
 }

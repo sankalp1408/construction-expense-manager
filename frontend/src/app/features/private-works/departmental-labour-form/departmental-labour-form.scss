@@ -1,0 +1,52 @@
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 280px;
+
+  @media (min-width: 640px) {
+    min-width: 520px;
+  }
+}
+
+.rows-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.row-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 8px;
+  align-items: center;
+
+  @media (max-width: 639px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.row-subtotal {
+  text-align: right;
+  padding-bottom: 1.25em;
+
+  .figure-label {
+    display: block;
+    font-size: 0.7rem;
+    opacity: 0.6;
+  }
+
+  .figure-value {
+    display: block;
+    font-weight: 600;
+  }
+}
+
+.grand-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+}

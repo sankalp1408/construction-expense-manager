@@ -32,6 +32,7 @@ public class PrivateWorksController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = nameof(UserRole.SuperAdmin))]
     public async Task<IActionResult> Create([FromBody] SavePrivateWorkDto dto)
     {
         var created = await _service.CreateAsync(dto, _currentUserService.UserId);
@@ -146,6 +147,30 @@ public class PrivateWorksController : ControllerBase
     public async Task<IActionResult> DeleteMaterial(int privateWorkId, int materialId)
     {
         var success = await _service.DeleteMaterialAsync(privateWorkId, materialId);
+        return success ? NoContent() : NotFound();
+    }
+
+    // ----- Departmental Labour -----
+
+    [HttpPost("{privateWorkId:int}/departmental-labour")]
+    public async Task<IActionResult> AddDepartmentalLabour(int privateWorkId, [FromBody] SavePrivateWorkDepartmentalLabourDto dto)
+    {
+        var entry = await _service.AddDepartmentalLabourAsync(privateWorkId, dto);
+        return entry is null ? NotFound() : Ok(entry);
+    }
+
+    [HttpPut("{privateWorkId:int}/departmental-labour/{departmentalLabourId:int}")]
+    public async Task<IActionResult> UpdateDepartmentalLabour(int privateWorkId, int departmentalLabourId, [FromBody] SavePrivateWorkDepartmentalLabourDto dto)
+    {
+        var entry = await _service.UpdateDepartmentalLabourAsync(privateWorkId, departmentalLabourId, dto);
+        return entry is null ? NotFound() : Ok(entry);
+    }
+
+    [HttpDelete("{privateWorkId:int}/departmental-labour/{departmentalLabourId:int}")]
+    [Authorize(Roles = nameof(UserRole.SuperAdmin))]
+    public async Task<IActionResult> DeleteDepartmentalLabour(int privateWorkId, int departmentalLabourId)
+    {
+        var success = await _service.DeleteDepartmentalLabourAsync(privateWorkId, departmentalLabourId);
         return success ? NoContent() : NotFound();
     }
 }

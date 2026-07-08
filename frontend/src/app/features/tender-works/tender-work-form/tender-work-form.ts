@@ -37,7 +37,6 @@ export class TenderWorkForm {
     extraGstBill: [this.w?.extraGstBill ?? 0],
     workExpenditure: [this.w?.workExpenditure ?? 0],
     securityDepositPercent: [this.w?.securityDepositPercent ?? 10],
-    officeProtocolPercent: [this.w?.officeProtocolPercent ?? 6],
     corporatorName: [this.w?.corporatorName ?? ''],
     corporatorProtocolPercent: [this.w?.corporatorProtocolPercent ?? 10],
     gstBillCommission: [this.w?.gstBillCommission ?? 0]

@@ -129,7 +129,6 @@ public class TenderWorkService : ITenderWorkService
         work.ExtraGstBill = dto.ExtraGstBill;
         work.WorkExpenditure = dto.WorkExpenditure;
         work.SecurityDepositPercent = dto.SecurityDepositPercent;
-        work.OfficeProtocolPercent = dto.OfficeProtocolPercent;
         work.CorporatorName = dto.CorporatorName.Trim();
         work.CorporatorProtocolPercent = dto.CorporatorProtocolPercent;
         work.GstBillCommission = dto.GstBillCommission;
@@ -169,11 +168,15 @@ public class TenderWorkService : ITenderWorkService
         // GST Filing = GST (Total) - (Billed GST + Extra GST Bill).
         var gstFiling = work.GstTotal - (work.BilledGst + work.ExtraGstBill);
 
-        // Security Deposit / Office Protocol / Corporator Protocol are % of Billed Amount.
+        // Security Deposit / Corporator Protocol are % of Billed Amount.
         // Corporator Name is text-only and must never enter a numeric calculation.
         var securityDepositAmount = Math.Round(billedAmount * work.SecurityDepositPercent / 100, 2);
-        var officeProtocolAmount = Math.Round(billedAmount * work.OfficeProtocolPercent / 100, 2);
         var corporatorProtocolAmount = Math.Round(billedAmount * work.CorporatorProtocolPercent / 100, 2);
+
+        // Office Protocol = sum of the actual "Officer" commission amount recorded on each RA
+        // Bill (each bill has its own % and amount) — not a separate work-level percentage.
+        // Recalculates automatically whenever an RA bill is added/edited/deleted.
+        var officeProtocolAmount = work.RaBills.Sum(b => Math.Round(b.BilledAmount * b.OfficerCommissionPercent / 100, 2));
 
         var profit = billedAmount - (work.TenderFee + work.TenderEMD + work.TenderFilingAmount + work.WorkExpenditure
             + securityDepositAmount + officeProtocolAmount + corporatorProtocolAmount
@@ -193,7 +196,6 @@ public class TenderWorkService : ITenderWorkService
             ExtraGstBill = work.ExtraGstBill,
             WorkExpenditure = work.WorkExpenditure,
             SecurityDepositPercent = work.SecurityDepositPercent,
-            OfficeProtocolPercent = work.OfficeProtocolPercent,
             CorporatorName = work.CorporatorName,
             CorporatorProtocolPercent = work.CorporatorProtocolPercent,
             GstBillCommission = work.GstBillCommission,

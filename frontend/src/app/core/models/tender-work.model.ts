@@ -11,7 +11,6 @@ export interface TenderWork {
   extraGstBill: number;
   workExpenditure: number;
   securityDepositPercent: number;
-  officeProtocolPercent: number;
   corporatorName: string;
   corporatorProtocolPercent: number;
   gstBillCommission: number;

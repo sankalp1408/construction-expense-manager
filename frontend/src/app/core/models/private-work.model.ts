@@ -44,11 +44,50 @@ export interface PrivateWorkMaterial {
   privateWorkId: number;
   materialName: string;
   vendorName: string;
+  unit: string;
+  quantity: number;
+  rate: number;
   amount: number;
   paymentDate: string;
 }
 
-export type SavePrivateWorkMaterial = Omit<PrivateWorkMaterial, 'id' | 'privateWorkId'>;
+export type SavePrivateWorkMaterial = Omit<PrivateWorkMaterial, 'id' | 'privateWorkId' | 'amount'>;
+
+// Material Type presets for the Material Payment form: each fixes the unit that
+// material is tracked in (e.g. Steel is always Kg). "Custom" (no preset) lets the
+// user name their own material and unit.
+export const MATERIAL_TYPE_PRESETS: { nameKey: string; unitKey: string }[] = [
+  { nameKey: 'material.presetSteel', unitKey: 'material.unitKg' },
+  { nameKey: 'material.presetCrushSand', unitKey: 'material.unitBrass' },
+  { nameKey: 'material.presetAggregate', unitKey: 'material.unitBrass' },
+  { nameKey: 'material.presetBricks', unitKey: 'material.unitNumbers' },
+  { nameKey: 'material.presetTiles', unitKey: 'material.unitSqft' },
+  { nameKey: 'material.presetCement', unitKey: 'material.unitBags' }
+];
+
+export interface PrivateWorkDepartmentalLabourRow {
+  id: number;
+  labourType: string;
+  count: number;
+  rate: number;
+  subtotal: number;
+}
+
+export type SavePrivateWorkDepartmentalLabourRow = Omit<PrivateWorkDepartmentalLabourRow, 'id' | 'subtotal'>;
+
+export interface PrivateWorkDepartmentalLabour {
+  id: number;
+  privateWorkId: number;
+  labourDate: string;
+  rows: PrivateWorkDepartmentalLabourRow[];
+  total: number;
+  createdAt: string;
+}
+
+export interface SavePrivateWorkDepartmentalLabour {
+  labourDate: string;
+  rows: SavePrivateWorkDepartmentalLabourRow[];
+}
 
 export interface PrivateWork {
   id: number;
@@ -63,6 +102,7 @@ export interface PrivateWork {
   totalWorkerPaid: number;
   totalWorkerRemaining: number;
   totalMaterialAmount: number;
+  totalDepartmentalLabour: number;
 
   totalReceived: number;
   pendingToReceive: number;
@@ -72,6 +112,7 @@ export interface PrivateWork {
   milestones: PrivateWorkMilestone[];
   categories: PrivateWorkCategory[];
   materials: PrivateWorkMaterial[];
+  departmentalLabours: PrivateWorkDepartmentalLabour[];
 
   createdAt: string;
   updatedAt?: string;

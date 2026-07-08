@@ -4,7 +4,14 @@
 }
 
 .filter-card {
+  position: sticky;
+  top: 56px;
+  z-index: 8;
   margin-bottom: 16px;
+
+  @media (min-width: 600px) {
+    top: 64px;
+  }
 }
 
 .filter-row {

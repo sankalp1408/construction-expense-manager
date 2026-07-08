@@ -33,6 +33,7 @@
       <div><span class="figure-label">{{ 'privateWork.workerPaid' | translate }}</span><span class="figure-value">{{ w.totalWorkerPaid | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'privateWork.workerRemaining' | translate }}</span><span class="figure-value">{{ w.totalWorkerRemaining | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'privateWork.materialTotal' | translate }}</span><span class="figure-value">{{ w.totalMaterialAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
+      <div><span class="figure-label">{{ 'privateWork.departmentalLabourTotal' | translate }}</span><span class="figure-value">{{ w.totalDepartmentalLabour | currency:'INR':'symbol':'1.0-0' }}</span></div>
     </div>
   </mat-card>
 
@@ -174,6 +175,14 @@
           <th mat-header-cell *matHeaderCellDef>{{ 'common.vendor' | translate }}</th>
           <td mat-cell *matCellDef="let m">{{ m.vendorName }}</td>
         </ng-container>
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef>{{ 'material.quantity' | translate }}</th>
+          <td mat-cell *matCellDef="let m">{{ m.quantity }} {{ m.unit }}</td>
+        </ng-container>
+        <ng-container matColumnDef="rate">
+          <th mat-header-cell *matHeaderCellDef>{{ 'material.rate' | translate }}</th>
+          <td mat-cell *matCellDef="let m">{{ m.rate | currency:'INR':'symbol':'1.0-0' }}</td>
+        </ng-container>
         <ng-container matColumnDef="amount">
           <th mat-header-cell *matHeaderCellDef>{{ 'common.amount' | translate }}</th>
           <td mat-cell *matCellDef="let m">{{ m.amount | currency:'INR':'symbol':'1.0-0' }}</td>
@@ -198,5 +207,57 @@
         <p class="empty-text">{{ 'privateWork.noMaterials' | translate }}</p>
       }
     </div>
+  </mat-card>
+
+  <mat-card class="section-card">
+    <div class="section-header">
+      <div class="section-title">{{ 'privateWork.departmentalLabourSection' | translate }}</div>
+      <button mat-stroked-button color="primary" (click)="addDepartmentalLabour()">
+        <mat-icon>add</mat-icon> {{ 'privateWork.addDepartmentalLabour' | translate }}
+      </button>
+    </div>
+
+    @for (entry of w.departmentalLabours; track entry.id) {
+      <mat-expansion-panel class="category-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{ entry.labourDate | date:'dd-MMM-yyyy' }}</mat-panel-title>
+          <mat-panel-description>
+            {{ 'departmentalLabour.total' | translate }}: {{ entry.total | currency:'INR':'symbol':'1.0-0' }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="table-scroll">
+          <table mat-table [dataSource]="entry.rows">
+            <ng-container matColumnDef="labourType">
+              <th mat-header-cell *matHeaderCellDef>{{ 'departmentalLabour.labourType' | translate }}</th>
+              <td mat-cell *matCellDef="let r">{{ r.labourType }}</td>
+            </ng-container>
+            <ng-container matColumnDef="count">
+              <th mat-header-cell *matHeaderCellDef>{{ 'departmentalLabour.count' | translate }}</th>
+              <td mat-cell *matCellDef="let r">{{ r.count }}</td>
+            </ng-container>
+            <ng-container matColumnDef="rate">
+              <th mat-header-cell *matHeaderCellDef>{{ 'departmentalLabour.rate' | translate }}</th>
+              <td mat-cell *matCellDef="let r">{{ r.rate | currency:'INR':'symbol':'1.0-0' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="subtotal">
+              <th mat-header-cell *matHeaderCellDef>{{ 'departmentalLabour.subtotal' | translate }}</th>
+              <td mat-cell *matCellDef="let r">{{ r.subtotal | currency:'INR':'symbol':'1.0-0' }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="departmentalLabourRowColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: departmentalLabourRowColumns;"></tr>
+          </table>
+        </div>
+
+        <div class="category-actions">
+          <button mat-button (click)="editDepartmentalLabour(entry)"><mat-icon>edit</mat-icon> {{ 'common.edit' | translate }}</button>
+          @if (isSuperAdmin()) {
+            <button mat-button color="warn" (click)="deleteDepartmentalLabour(entry)"><mat-icon>delete</mat-icon> {{ 'common.delete' | translate }}</button>
+          }
+        </div>
+      </mat-expansion-panel>
+    } @empty {
+      <p class="empty-text">{{ 'privateWork.noDepartmentalLabour' | translate }}</p>
+    }
   </mat-card>
 }

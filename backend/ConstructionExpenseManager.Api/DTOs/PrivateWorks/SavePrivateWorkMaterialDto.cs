@@ -10,7 +10,11 @@ public class SavePrivateWorkMaterialDto
     [MaxLength(150)]
     public string VendorName { get; set; } = string.Empty;
 
-    public decimal Amount { get; set; }
+    [Required, MaxLength(50)]
+    public string Unit { get; set; } = string.Empty;
+
+    public decimal Quantity { get; set; }
+    public decimal Rate { get; set; }
 
     [Required]
     public DateTime PaymentDate { get; set; }

@@ -26,13 +26,6 @@ var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>()!;
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
     ?? new[] { "http://localhost:4200" };
 
-// TEMPORARY diagnostic logging to debug a live CORS mismatch — remove once resolved.
-Console.WriteLine($"[CORS-DEBUG] AllowedOrigins count = {allowedOrigins.Length}");
-for (var i = 0; i < allowedOrigins.Length; i++)
-{
-    Console.WriteLine($"[CORS-DEBUG] [{i}] = >>>{allowedOrigins[i]}<<< (length={allowedOrigins[i].Length})");
-}
-
 // ----- Database -----
 // Bound from ConnectionStrings:DefaultConnection, which maps to the
 // ConnectionStrings__DefaultConnection env var in Render (see appsettings.json / appsettings.Development.json).

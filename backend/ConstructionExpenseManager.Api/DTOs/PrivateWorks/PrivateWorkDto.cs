@@ -14,6 +14,7 @@ public class PrivateWorkDto
     public decimal TotalWorkerPaid { get; set; }
     public decimal TotalWorkerRemaining { get; set; }
     public decimal TotalMaterialAmount { get; set; }
+    public decimal TotalDepartmentalLabour { get; set; }
 
     // Money-flow / in-hand summary
     public decimal TotalReceived { get; set; }
@@ -24,6 +25,7 @@ public class PrivateWorkDto
     public List<PrivateWorkMilestoneDto> Milestones { get; set; } = new();
     public List<PrivateWorkCategoryDto> Categories { get; set; } = new();
     public List<PrivateWorkMaterialDto> Materials { get; set; } = new();
+    public List<PrivateWorkDepartmentalLabourDto> DepartmentalLabours { get; set; } = new();
 
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }

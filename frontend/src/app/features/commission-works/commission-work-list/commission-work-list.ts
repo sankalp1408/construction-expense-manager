@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { CommissionWorkService } from '../../../core/services/commission-work.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { CommissionWork } from '../../../core/models/commission-work.model';
 import { CommissionWorkForm, CommissionWorkFormDialogData } from '../commission-work-form/commission-work-form';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
@@ -20,7 +21,9 @@ export class CommissionWorkList {
   private readonly service = inject(CommissionWorkService);
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
 
+  readonly isSuperAdmin = this.authService.isSuperAdmin;
   readonly works = signal<CommissionWork[]>([]);
 
   constructor() {

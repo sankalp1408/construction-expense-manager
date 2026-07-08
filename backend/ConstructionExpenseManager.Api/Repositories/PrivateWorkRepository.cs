@@ -12,7 +12,8 @@ public class PrivateWorkRepository : Repository<PrivateWork>, IPrivateWorkReposi
         DbSet
             .Include(p => p.Milestones)
             .Include(p => p.Categories).ThenInclude(c => c.Payments)
-            .Include(p => p.Materials);
+            .Include(p => p.Materials)
+            .Include(p => p.DepartmentalLabours).ThenInclude(d => d.Rows);
 
     public async Task<PrivateWork?> GetWithDetailsAsync(int id) =>
         await WithDetails().FirstOrDefaultAsync(p => p.Id == id);

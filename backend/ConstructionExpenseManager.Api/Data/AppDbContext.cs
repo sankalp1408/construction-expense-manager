@@ -21,6 +21,8 @@ public class AppDbContext : DbContext
     public DbSet<PrivateWorkCategory> PrivateWorkCategories => Set<PrivateWorkCategory>();
     public DbSet<PrivateWorkCategoryPayment> PrivateWorkCategoryPayments => Set<PrivateWorkCategoryPayment>();
     public DbSet<PrivateWorkMaterial> PrivateWorkMaterials => Set<PrivateWorkMaterial>();
+    public DbSet<PrivateWorkDepartmentalLabour> PrivateWorkDepartmentalLabours => Set<PrivateWorkDepartmentalLabour>();
+    public DbSet<PrivateWorkDepartmentalLabourRow> PrivateWorkDepartmentalLabourRows => Set<PrivateWorkDepartmentalLabourRow>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -55,8 +57,7 @@ public class AppDbContext : DbContext
 
             foreach (var pct in new[]
             {
-                nameof(TenderWork.SecurityDepositPercent), nameof(TenderWork.OfficeProtocolPercent),
-                nameof(TenderWork.CorporatorProtocolPercent)
+                nameof(TenderWork.SecurityDepositPercent), nameof(TenderWork.CorporatorProtocolPercent)
             })
             {
                 e.Property(pct).HasColumnType("decimal(5,2)");
@@ -136,6 +137,11 @@ public class AppDbContext : DbContext
                 .WithOne(m => m.PrivateWork)
                 .HasForeignKey(m => m.PrivateWorkId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            e.HasMany(p => p.DepartmentalLabours)
+                .WithOne(d => d.PrivateWork)
+                .HasForeignKey(d => d.PrivateWorkId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<PrivateWorkMilestone>(e =>
@@ -171,8 +177,27 @@ public class AppDbContext : DbContext
         {
             e.Property(m => m.MaterialName).HasMaxLength(150).IsRequired();
             e.Property(m => m.VendorName).HasMaxLength(150);
+            e.Property(m => m.Unit).HasMaxLength(50);
             e.Property(m => m.PaymentDate).HasColumnType("date");
+            e.Property(m => m.Quantity).HasColumnType("decimal(14,2)");
+            e.Property(m => m.Rate).HasColumnType("decimal(14,2)");
             e.Property(m => m.Amount).HasColumnType("decimal(14,2)");
+        });
+
+        modelBuilder.Entity<PrivateWorkDepartmentalLabour>(e =>
+        {
+            e.Property(d => d.LabourDate).HasColumnType("date");
+
+            e.HasMany(d => d.Rows)
+                .WithOne(r => r.DepartmentalLabour)
+                .HasForeignKey(r => r.DepartmentalLabourId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<PrivateWorkDepartmentalLabourRow>(e =>
+        {
+            e.Property(r => r.LabourType).HasMaxLength(100).IsRequired();
+            e.Property(r => r.Rate).HasColumnType("decimal(14,2)");
         });
     }
 }

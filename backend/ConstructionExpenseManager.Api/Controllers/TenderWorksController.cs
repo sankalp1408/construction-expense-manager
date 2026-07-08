@@ -35,6 +35,7 @@ public class TenderWorksController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = nameof(UserRole.SuperAdmin))]
     public async Task<IActionResult> Create([FromBody] SaveTenderWorkDto dto)
     {
         var created = await _service.CreateAsync(dto, _currentUserService.UserId);

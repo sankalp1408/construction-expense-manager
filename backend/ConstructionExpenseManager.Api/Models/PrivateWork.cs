@@ -15,4 +15,5 @@ public class PrivateWork
     public ICollection<PrivateWorkMilestone> Milestones { get; set; } = new List<PrivateWorkMilestone>();
     public ICollection<PrivateWorkCategory> Categories { get; set; } = new List<PrivateWorkCategory>();
     public ICollection<PrivateWorkMaterial> Materials { get; set; } = new List<PrivateWorkMaterial>();
+    public ICollection<PrivateWorkDepartmentalLabour> DepartmentalLabours { get; set; } = new List<PrivateWorkDepartmentalLabour>();
 }

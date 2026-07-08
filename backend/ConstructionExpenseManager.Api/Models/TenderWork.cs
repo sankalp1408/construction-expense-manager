@@ -14,7 +14,6 @@ public class TenderWork
     public decimal ExtraGstBill { get; set; }
     public decimal WorkExpenditure { get; set; }
     public decimal SecurityDepositPercent { get; set; } = 10;
-    public decimal OfficeProtocolPercent { get; set; } = 6;
     public string CorporatorName { get; set; } = string.Empty;
     public decimal CorporatorProtocolPercent { get; set; } = 10;
     public decimal GstBillCommission { get; set; }

@@ -3,6 +3,7 @@ using System;
 using ConstructionExpenseManager.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ConstructionExpenseManager.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260708175634_RemoveOfficeProtocolPercentFromTender")]
+    partial class RemoveOfficeProtocolPercentFromTender
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -249,59 +252,6 @@ namespace ConstructionExpenseManager.Api.Migrations
                     b.ToTable("PrivateWorkCategoryPayments");
                 });
 
-            modelBuilder.Entity("ConstructionExpenseManager.Api.Models.PrivateWorkDepartmentalLabour", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("LabourDate")
-                        .HasColumnType("date");
-
-                    b.Property<int>("PrivateWorkId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PrivateWorkId");
-
-                    b.ToTable("PrivateWorkDepartmentalLabours");
-                });
-
-            modelBuilder.Entity("ConstructionExpenseManager.Api.Models.PrivateWorkDepartmentalLabourRow", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Count")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DepartmentalLabourId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("LabourType")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<decimal>("Rate")
-                        .HasColumnType("decimal(14,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentalLabourId");
-
-                    b.ToTable("PrivateWorkDepartmentalLabourRows");
-                });
-
             modelBuilder.Entity("ConstructionExpenseManager.Api.Models.PrivateWorkMaterial", b =>
                 {
                     b.Property<int>("Id")
@@ -326,17 +276,6 @@ namespace ConstructionExpenseManager.Api.Migrations
 
                     b.Property<int>("PrivateWorkId")
                         .HasColumnType("integer");
-
-                    b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(14,2)");
-
-                    b.Property<decimal>("Rate")
-                        .HasColumnType("decimal(14,2)");
-
-                    b.Property<string>("Unit")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("VendorName")
                         .IsRequired()
@@ -572,28 +511,6 @@ namespace ConstructionExpenseManager.Api.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("ConstructionExpenseManager.Api.Models.PrivateWorkDepartmentalLabour", b =>
-                {
-                    b.HasOne("ConstructionExpenseManager.Api.Models.PrivateWork", "PrivateWork")
-                        .WithMany("DepartmentalLabours")
-                        .HasForeignKey("PrivateWorkId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PrivateWork");
-                });
-
-            modelBuilder.Entity("ConstructionExpenseManager.Api.Models.PrivateWorkDepartmentalLabourRow", b =>
-                {
-                    b.HasOne("ConstructionExpenseManager.Api.Models.PrivateWorkDepartmentalLabour", "DepartmentalLabour")
-                        .WithMany("Rows")
-                        .HasForeignKey("DepartmentalLabourId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DepartmentalLabour");
-                });
-
             modelBuilder.Entity("ConstructionExpenseManager.Api.Models.PrivateWorkMaterial", b =>
                 {
                     b.HasOne("ConstructionExpenseManager.Api.Models.PrivateWork", "PrivateWork")
@@ -636,8 +553,6 @@ namespace ConstructionExpenseManager.Api.Migrations
                 {
                     b.Navigation("Categories");
 
-                    b.Navigation("DepartmentalLabours");
-
                     b.Navigation("Materials");
 
                     b.Navigation("Milestones");
@@ -646,11 +561,6 @@ namespace ConstructionExpenseManager.Api.Migrations
             modelBuilder.Entity("ConstructionExpenseManager.Api.Models.PrivateWorkCategory", b =>
                 {
                     b.Navigation("Payments");
-                });
-
-            modelBuilder.Entity("ConstructionExpenseManager.Api.Models.PrivateWorkDepartmentalLabour", b =>
-                {
-                    b.Navigation("Rows");
                 });
 
             modelBuilder.Entity("ConstructionExpenseManager.Api.Models.TenderWork", b =>

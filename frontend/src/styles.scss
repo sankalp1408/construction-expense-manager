@@ -96,6 +96,22 @@ body {
   color: var(--mat-sys-on-surface);
 }
 
+// Every list/detail page wraps its title (and, on detail pages, the back arrow +
+// edit/delete actions) in a ".header-row". Pinning it just below the already-sticky
+// app toolbar (.shell-toolbar, 56px/64px tall) keeps navigation and page identity
+// visible together while the content below scrolls.
+.header-row {
+  position: sticky;
+  top: 56px;
+  z-index: 9;
+  background-color: #f2f2f4;
+  padding-block: 8px;
+
+  @media (min-width: 600px) {
+    top: 64px;
+  }
+}
+
 // Every data table in the app is wrapped in a ".table-scroll" div so it can
 // scroll horizontally on narrow screens instead of the browser default of
 // squeezing/wrapping cell text until it's unreadable (or clipping the last

@@ -1,6 +1,7 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -21,6 +22,7 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 })
 export class Dashboard {
   private readonly dashboardService = inject(DashboardService);
+  private readonly router = inject(Router);
 
   readonly summary = signal<DashboardSummary | null>(null);
   readonly loading = signal(false);
@@ -52,6 +54,18 @@ export class Dashboard {
     this.fromDate = null;
     this.toDate = null;
     this.load();
+  }
+
+  goToTenderWorks(): void {
+    this.router.navigate(['/tender-works']);
+  }
+
+  goToCommissionWorks(): void {
+    this.router.navigate(['/commission-works']);
+  }
+
+  goToPrivateWorks(): void {
+    this.router.navigate(['/private-works']);
   }
 
   private toIsoDate(date: Date | null): string | undefined {

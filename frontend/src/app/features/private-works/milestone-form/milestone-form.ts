@@ -13,6 +13,7 @@ import { fromIsoDate, toIsoDate } from '../../../shared/date-utils';
 export interface MilestoneFormDialogData {
   milestone: PrivateWorkMilestone | null;
   nextSortOrder: number;
+  totalContractAmount: number;
 }
 
 @Component({
@@ -40,6 +41,24 @@ export class MilestoneForm {
     status: [this.m?.status ?? 'Pending', Validators.required],
     sortOrder: [this.m?.sortOrder ?? this.data.nextSortOrder]
   });
+
+  private readonly totalContractAmount = this.data.totalContractAmount;
+
+  constructor() {
+    // Bidirectional %/Amount: whichever field the user types into drives the other,
+    // via {emitEvent: false} so the update doesn't bounce back and forth.
+    this.form.controls.percentOfTotal.valueChanges.subscribe((pct) => {
+      if (!this.totalContractAmount || pct == null || isNaN(pct)) return;
+      const amount = Math.round((pct / 100) * this.totalContractAmount * 100) / 100;
+      this.form.controls.paidAmount.setValue(amount, { emitEvent: false });
+    });
+
+    this.form.controls.paidAmount.valueChanges.subscribe((amount) => {
+      if (!this.totalContractAmount || amount == null || isNaN(amount)) return;
+      const pct = Math.round((amount / this.totalContractAmount) * 100 * 100) / 100;
+      this.form.controls.percentOfTotal.setValue(pct, { emitEvent: false });
+    });
+  }
 
   save(): void {
     if (this.form.invalid) {
