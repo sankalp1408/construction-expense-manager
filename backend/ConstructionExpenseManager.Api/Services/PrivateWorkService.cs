@@ -405,7 +405,9 @@ public class PrivateWorkService : IPrivateWorkService
         var departmentalLabourDtos = work.DepartmentalLabours.OrderByDescending(d => d.LabourDate).Select(ToDto).ToList();
 
         // Money-flow summary:
-        // Total Received = sum of milestone payments actually received so far.
+        // Total Received = sum of each milestone's calculated Amount (% of total contract),
+        // not the separately-tracked Paid field — a milestone counts as billed/received once
+        // it exists, regardless of its own Paid/status tracking.
         // Pending to Receive = Total Contract Amount - Total Received (not the sum of per-milestone gaps,
         // so it stays correct even if milestone percentages don't add up to exactly 100%).
         // Total Used = worker/vendor payments + material payments + departmental labour made so far.
@@ -413,7 +415,7 @@ public class PrivateWorkService : IPrivateWorkService
         var totalWorkerPaid = categoryDtos.Sum(c => c.TotalPaid);
         var totalMaterialAmount = materialDtos.Sum(m => m.Amount);
         var totalDepartmentalLabour = departmentalLabourDtos.Sum(d => d.Total);
-        var totalReceived = milestoneDtos.Sum(m => m.PaidAmount);
+        var totalReceived = milestoneDtos.Sum(m => m.Amount);
         var totalUsed = totalWorkerPaid + totalMaterialAmount + totalDepartmentalLabour;
 
         return new PrivateWorkDto
