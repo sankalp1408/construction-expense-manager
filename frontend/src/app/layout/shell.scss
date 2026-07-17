@@ -2,15 +2,6 @@
   height: 100dvh;
 }
 
-// mat-sidenav-content becomes a flex column so `.shell-footer` sits at the
-// bottom of the viewport on short pages (classic "sticky footer" layout)
-// instead of floating up under the content, while still scrolling normally
-// to the true end of the document on long pages.
-mat-sidenav-content {
-  display: flex;
-  flex-direction: column;
-}
-
 .shell-sidenav {
   width: 260px;
 }
@@ -138,20 +129,30 @@ mat-sidenav-content {
 }
 
 .shell-main {
-  flex: 1 0 auto;
   width: 100%;
   padding: 12px;
+  // Clears the footer, which is fixed to the viewport bottom (see below)
+  // rather than part of the page flow, so it never covers the last bit of
+  // content on any page.
+  padding-bottom: 56px;
   max-width: 960px;
   margin: 0 auto;
   box-sizing: border-box;
 
   @media (min-width: 600px) {
     padding: 20px;
+    padding-bottom: 56px;
   }
 }
 
 .shell-footer {
-  flex-shrink: 0;
+  // Fixed to the true viewport bottom on every page — it must never scroll
+  // away with content, unlike a normal in-flow "sticky footer".
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
