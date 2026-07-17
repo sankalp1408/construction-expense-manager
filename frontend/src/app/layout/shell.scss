@@ -75,20 +75,14 @@
 
 .toolbar-brand-mark {
   flex-shrink: 0;
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.16);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: contain;
+  padding: 4px;
+  box-sizing: border-box;
   margin-left: 4px;
-
-  mat-icon {
-    font-size: 17px;
-    width: 17px;
-    height: 17px;
-  }
 }
 
 .toolbar-title {

@@ -59,22 +59,16 @@
 }
 
 .login-brand-mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
+  display: block;
+  width: 100%;
+  max-width: 230px;
+  height: auto;
   margin: 4px auto 0;
-  background: var(--gradient-brand);
-  color: #fff;
-  box-shadow: var(--shadow-md);
+}
 
-  mat-icon {
-    font-size: 28px;
-    width: 28px;
-    height: 28px;
-  }
+.login-subtitle {
+  text-align: center;
+  margin-top: 4px !important;
 }
 
 .full-width {

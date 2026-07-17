@@ -1,9 +1,8 @@
 <div class="login-page">
   <mat-card class="login-card">
-    <span class="login-brand-mark"><mat-icon>architecture</mat-icon></span>
+    <img class="login-brand-mark" src="/atharv-logo.png" alt="{{ 'common.appName' | translate }}" />
     <mat-card-header>
-      <mat-card-title>{{ 'common.appName' | translate }}</mat-card-title>
-      <mat-card-subtitle>{{ 'login.subtitle' | translate }}</mat-card-subtitle>
+      <mat-card-subtitle class="login-subtitle">{{ 'login.subtitle' | translate }}</mat-card-subtitle>
     </mat-card-header>
 
     <form [formGroup]="form" (ngSubmit)="submit()">
