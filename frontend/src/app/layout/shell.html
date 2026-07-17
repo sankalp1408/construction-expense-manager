@@ -1,8 +1,11 @@
 <mat-sidenav-container class="shell-container">
   <mat-sidenav #sidenav [opened]="sidenavOpen()" (openedChange)="sidenavOpen.set($event)" mode="over" class="shell-sidenav">
     <div class="sidenav-header">
-      <div class="user-name">{{ currentUser()?.name }}</div>
-      <div class="user-role">{{ currentUser()?.role }}</div>
+      <span class="user-avatar">{{ initials() }}</span>
+      <div class="user-details">
+        <div class="user-name">{{ currentUser()?.name }}</div>
+        <div class="user-role">{{ currentUser()?.role }}</div>
+      </div>
     </div>
     <mat-nav-list>
       @for (item of topItems; track item.path) {
@@ -44,6 +47,7 @@
       <button mat-icon-button (click)="toggleSidenav()" aria-label="Toggle navigation">
         <mat-icon>menu</mat-icon>
       </button>
+      <span class="toolbar-brand-mark"><mat-icon>architecture</mat-icon></span>
       <span class="toolbar-title">{{ 'common.appName' | translate }}</span>
       <span class="toolbar-spacer"></span>
       <span class="toolbar-user-name">{{ currentUser()?.name }}</span>
@@ -63,5 +67,10 @@
     <main class="shell-main">
       <router-outlet></router-outlet>
     </main>
+
+    <footer class="shell-footer">
+      <span>&copy; 2026 Krypton IT Solution.</span>
+      <span class="shell-footer-version">Version: {{ appVersion }}</span>
+    </footer>
   </mat-sidenav-content>
 </mat-sidenav-container>

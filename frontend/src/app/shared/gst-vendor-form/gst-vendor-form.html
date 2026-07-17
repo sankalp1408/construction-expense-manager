@@ -9,15 +9,22 @@
 
     <mat-form-field appearance="outline">
       <mat-label>{{ 'gstVendor.gstBillAmount' | translate }}</mat-label>
+      <span matTextPrefix>₹&nbsp;</span>
       <input matInput type="number" formControlName="gstBillAmount" />
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>{{ 'gstVendor.commissionPercent' | translate }}</mat-label>
       <input matInput type="number" formControlName="commissionPercent" />
+      <span matTextSuffix>%</span>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <div class="computed-preview span-2">
+      <span class="computed-preview-label">{{ 'gstVendor.commissionAmount' | translate }}</span>
+      <span class="computed-preview-value">{{ commissionAmountPreview | currency:'INR':'symbol':'1.0-0' }}</span>
+    </div>
+
+    <mat-form-field appearance="outline" class="span-2">
       <mat-label>{{ 'gstVendor.sentDate' | translate }}</mat-label>
       <input matInput [matDatepicker]="sentDatePicker" formControlName="sentDate" />
       <mat-datepicker-toggle matIconSuffix [for]="sentDatePicker"></mat-datepicker-toggle>

@@ -14,25 +14,46 @@
       <mat-datepicker #billDatePicker></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="span-2">
       <mat-label>{{ 'raBill.billedAmount' | translate }}</mat-label>
+      <span matTextPrefix>₹&nbsp;</span>
       <input matInput type="number" formControlName="billedAmount" />
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'raBill.corporatorCommissionPercent' | translate }}</mat-label>
-      <input matInput type="number" formControlName="corporatorCommissionPercent" />
-    </mat-form-field>
+    <mat-expansion-panel class="span-2" [expanded]="isEditMode">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ 'common.additionalDetails' | translate }}</mat-panel-title>
+      </mat-expansion-panel-header>
 
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'raBill.officerCommissionPercent' | translate }}</mat-label>
-      <input matInput type="number" formControlName="officerCommissionPercent" />
-    </mat-form-field>
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'raBill.corporatorCommissionPercent' | translate }}</mat-label>
+          <input matInput type="number" formControlName="corporatorCommissionPercent" />
+          <span matTextSuffix>%</span>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline" class="span-2">
-      <mat-label>{{ 'common.remarks' | translate }}</mat-label>
-      <input matInput formControlName="remarks" />
-    </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'raBill.officerCommissionPercent' | translate }}</mat-label>
+          <input matInput type="number" formControlName="officerCommissionPercent" />
+          <span matTextSuffix>%</span>
+        </mat-form-field>
+
+        <div class="computed-preview">
+          <span class="computed-preview-label">{{ 'raBill.corporatorCommissionAmount' | translate }}</span>
+          <span class="computed-preview-value">{{ corporatorCommissionAmountPreview | currency:'INR':'symbol':'1.0-0' }}</span>
+        </div>
+
+        <div class="computed-preview">
+          <span class="computed-preview-label">{{ 'raBill.officerCommissionAmount' | translate }}</span>
+          <span class="computed-preview-value">{{ officerCommissionAmountPreview | currency:'INR':'symbol':'1.0-0' }}</span>
+        </div>
+
+        <mat-form-field appearance="outline" class="span-2">
+          <mat-label>{{ 'common.remarks' | translate }}</mat-label>
+          <input matInput formControlName="remarks" />
+        </mat-form-field>
+      </div>
+    </mat-expansion-panel>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">

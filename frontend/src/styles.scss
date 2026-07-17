@@ -33,6 +33,19 @@
   --radius-md: 14px;
   --radius-pill: 999px;
   --font-display: 'Plus Jakarta Sans', 'Segoe UI', Roboto, sans-serif;
+
+  // Category tones — Tender/Commission/Private each get a distinct hue so
+  // they read as visually distinct areas instead of uniform teal everywhere.
+  // Private reuses the base accent (it's the "home" teal); Tender/Commission
+  // get new colors.
+  --tone-tender: #3452c4;
+  --tone-tender-soft: #e4e9fb;
+  --tone-commission: #a5580c;
+  --tone-commission-soft: #f7e6d2;
+  --tone-private: var(--accent);
+  --tone-private-soft: var(--accent-soft);
+
+  --gradient-brand: linear-gradient(135deg, var(--accent-strong), #1c4fae 120%);
 }
 
 html {
@@ -291,6 +304,19 @@ body {
     width: 18px;
     height: 18px;
   }
+
+  &.tone-tender {
+    background: var(--tone-tender-soft);
+    color: var(--tone-tender);
+  }
+  &.tone-commission {
+    background: var(--tone-commission-soft);
+    color: var(--tone-commission);
+  }
+  &.tone-private {
+    background: var(--tone-private-soft);
+    color: var(--tone-private);
+  }
 }
 
 .figure-grid {
@@ -334,6 +360,54 @@ body {
   padding: 16px 0 4px;
 }
 
+// Richer empty-state block for list pages — a big soft-colored icon circle
+// (reuse the `.tone-*` modifiers from `.icon-badge`) above the message,
+// centered in the available space. `<div class="empty-state"><span
+// class="empty-state-icon tone-x"><mat-icon>...</mat-icon></span><p
+// class="empty-state-text">...</p></div>`
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 64px 16px 32px;
+  text-align: center;
+}
+.empty-state-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tone-private-soft);
+  color: var(--tone-private);
+
+  &.tone-tender {
+    background: var(--tone-tender-soft);
+    color: var(--tone-tender);
+  }
+  &.tone-commission {
+    background: var(--tone-commission-soft);
+    color: var(--tone-commission);
+  }
+  &.tone-private {
+    background: var(--tone-private-soft);
+    color: var(--tone-private);
+  }
+
+  mat-icon {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+  }
+}
+.empty-state-text {
+  color: var(--text-faint);
+  font-size: 0.95rem;
+  max-width: 280px;
+}
+
 // Vendor / worker-category expansion panels (Tender & Commission GST
 // sub-ledger, Private Work categories) share the same rhythm.
 .vendor-panel,
@@ -368,7 +442,9 @@ mat-panel-description {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding-bottom: 88px;
+  // Clears the fixed FAB (now anchored above the app footer at bottom: 74px,
+  // ~56px tall) so the last card in a long list isn't hidden behind it.
+  padding-bottom: 140px;
 }
 .work-card {
   cursor: pointer;
@@ -395,9 +471,16 @@ mat-panel-description {
   flex-wrap: wrap;
 }
 .fab-add {
-  position: fixed;
-  right: 22px;
-  bottom: 22px;
+  // !important: Angular Material's own compiled `.mat-mdc-fab-base` sets
+  // `position: relative` and is injected into the document after this
+  // stylesheet, so it wins the cascade tie at equal specificity otherwise —
+  // silently turning this "fixed to viewport corner" button into an
+  // in-flow element that lands wherever the empty-state text pushes it.
+  position: fixed !important;
+  right: 22px !important;
+  // Cleared above the app footer (~40px tall) rather than the raw 22px
+  // viewport edge, so it never sits on top of the copyright/version bar.
+  bottom: 74px !important;
 }
 
 // ---------------------------------------------------------------------------
@@ -519,4 +602,82 @@ mat-panel-description {
 }
 .span-2 {
   grid-column: 1 / -1;
+}
+
+// Read-only computed-value line shown inside a form (e.g. "Commission
+// Amount: ₹4,500") — mirrors an existing calculation for the user's benefit
+// only; the value itself is never a submitted form control.
+.computed-preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 12px;
+  margin: 2px 0 8px;
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 0.85rem;
+
+  .computed-preview-label {
+    font-weight: 600;
+  }
+  .computed-preview-value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+// Static clarifying note under a field/group (e.g. Milestone's %/amount sync)
+// — text only, no behavior of its own.
+.field-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: -4px 0 8px;
+}
+
+// ---------------------------------------------------------------------------
+// Every "Add/Edit" dialog gets the `app-form-dialog` panelClass (see
+// app.config.ts MAT_DIALOG_DEFAULT_OPTIONS). Below 600px it becomes a
+// full-screen sheet instead of a small centered card, with a sticky
+// Save/Cancel bar, so entry is usable one-handed on a phone.
+// ---------------------------------------------------------------------------
+@media (max-width: 599px) {
+  .cdk-overlay-pane.app-form-dialog {
+    position: fixed;
+    inset: 0;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100% !important;
+    margin: 0;
+  }
+
+  .app-form-dialog .mat-mdc-dialog-surface {
+    border-radius: 0 !important;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .app-form-dialog .mat-mdc-dialog-content {
+    flex: 1 1 auto;
+    max-height: none !important;
+    overflow-y: auto;
+
+    &.form-grid,
+    .form-content {
+      min-width: 0;
+    }
+  }
+
+  .app-form-dialog .mat-mdc-dialog-actions {
+    position: sticky;
+    bottom: 0;
+    background: var(--surface);
+    padding: 12px 16px;
+    margin: 0;
+    box-shadow: 0 -2px 8px rgba(16, 40, 36, 0.1);
+    z-index: 1;
+  }
 }

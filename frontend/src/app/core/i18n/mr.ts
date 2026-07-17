@@ -17,7 +17,9 @@ export const MR: TranslationDict = {
     remarks: 'शेरा',
     status: 'स्थिती',
     name: 'नाव',
-    vendor: 'विक्रेता'
+    vendor: 'विक्रेता',
+    additionalDetails: 'अतिरिक्त तपशील',
+    estimated: 'अंदाजे'
   },
   nav: {
     dashboard: 'डॅशबोर्ड',
@@ -43,6 +45,7 @@ export const MR: TranslationDict = {
   },
   dashboard: {
     title: 'डॅशबोर्ड',
+    greeting: 'पुन्हा स्वागत आहे, {name}',
     fromDate: 'पासूनची तारीख',
     toDate: 'पर्यंतची तारीख',
     apply: 'लागू करा',
@@ -129,7 +132,9 @@ export const MR: TranslationDict = {
     billDate: 'बिल तारीख',
     billedAmount: 'बिलाची रक्कम',
     corporatorCommissionPercent: 'नगरसेवक कमिशन %',
-    officerCommissionPercent: 'अधिकारी कमिशन %'
+    officerCommissionPercent: 'अधिकारी कमिशन %',
+    corporatorCommissionAmount: 'नगरसेवक कमिशन रक्कम',
+    officerCommissionAmount: 'अधिकारी कमिशन रक्कम'
   },
   gstVendor: {
     addTitle: 'जीएसटी विक्रेता नोंद जोडा',
@@ -236,7 +241,8 @@ export const MR: TranslationDict = {
     stageNamePlaceholder: 'उदा. पाया, स्लॅब, फिनिशिंग',
     percentOfTotal: 'एकूण पैकी %',
     paidAmount: 'भरणा रक्कम',
-    paidDate: 'भरणा तारीख'
+    paidDate: 'भरणा तारीख',
+    syncHint: '% किंवा भरणा रक्कम बदलल्यास दुसरी आपोआप अद्ययावत होते.'
   },
   category: {
     addTitle: 'कामगार / विक्रेता प्रकार जोडा',

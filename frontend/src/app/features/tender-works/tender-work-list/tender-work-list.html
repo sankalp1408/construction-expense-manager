@@ -23,7 +23,10 @@
       </div>
     </mat-card>
   } @empty {
-    <p class="empty-text">{{ 'tender.empty' | translate }}</p>
+    <div class="empty-state">
+      <span class="empty-state-icon tone-tender"><mat-icon>gavel</mat-icon></span>
+      <p class="empty-state-text">{{ 'tender.empty' | translate }}</p>
+    </div>
   }
 </div>
 

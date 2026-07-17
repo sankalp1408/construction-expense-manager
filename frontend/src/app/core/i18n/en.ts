@@ -15,7 +15,9 @@ export const EN = {
     remarks: 'Remarks',
     status: 'Status',
     name: 'Name',
-    vendor: 'Vendor'
+    vendor: 'Vendor',
+    additionalDetails: 'Additional details',
+    estimated: 'Estimated'
   },
   nav: {
     dashboard: 'Dashboard',
@@ -41,6 +43,7 @@ export const EN = {
   },
   dashboard: {
     title: 'Dashboard',
+    greeting: 'Welcome back, {name}',
     fromDate: 'From Date',
     toDate: 'To Date',
     apply: 'Apply',
@@ -127,7 +130,9 @@ export const EN = {
     billDate: 'Bill Date',
     billedAmount: 'Billed Amount',
     corporatorCommissionPercent: 'Corporator Commission %',
-    officerCommissionPercent: 'Officer Commission %'
+    officerCommissionPercent: 'Officer Commission %',
+    corporatorCommissionAmount: 'Corporator Commission Amount',
+    officerCommissionAmount: 'Officer Commission Amount'
   },
   gstVendor: {
     addTitle: 'Add GST Vendor Entry',
@@ -234,7 +239,8 @@ export const EN = {
     stageNamePlaceholder: 'e.g. Foundation, Slab, Finishing',
     percentOfTotal: '% of Total',
     paidAmount: 'Paid Amount',
-    paidDate: 'Paid Date'
+    paidDate: 'Paid Date',
+    syncHint: 'Editing % or paid amount updates the other automatically.'
   },
   category: {
     addTitle: 'Add Worker / Vendor Category',

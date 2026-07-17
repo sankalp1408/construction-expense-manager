@@ -12,65 +12,89 @@
       <input matInput formControlName="nameOfWork" />
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="span-2">
       <mat-label>{{ 'tender.tenderAmount' | translate }}</mat-label>
+      <span matTextPrefix>₹&nbsp;</span>
       <input matInput type="number" formControlName="tenderAmount" />
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'tender.tenderFee' | translate }}</mat-label>
-      <input matInput type="number" formControlName="tenderFee" />
-    </mat-form-field>
+    <mat-expansion-panel class="span-2" [expanded]="isEditMode">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ 'common.additionalDetails' | translate }}</mat-panel-title>
+      </mat-expansion-panel-header>
 
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'tender.tenderEMD' | translate }}</mat-label>
-      <input matInput type="number" formControlName="tenderEMD" />
-    </mat-form-field>
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'tender.tenderFee' | translate }}</mat-label>
+          <span matTextPrefix>₹&nbsp;</span>
+          <input matInput type="number" formControlName="tenderFee" />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'tender.tenderFilingAmount' | translate }}</mat-label>
-      <input matInput type="number" formControlName="tenderFilingAmount" />
-    </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'tender.tenderEMD' | translate }}</mat-label>
+          <span matTextPrefix>₹&nbsp;</span>
+          <input matInput type="number" formControlName="tenderEMD" />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'tender.gstTotal' | translate }}</mat-label>
-      <input matInput type="number" formControlName="gstTotal" />
-    </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'tender.tenderFilingAmount' | translate }}</mat-label>
+          <span matTextPrefix>₹&nbsp;</span>
+          <input matInput type="number" formControlName="tenderFilingAmount" />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'tender.billedGst' | translate }}</mat-label>
-      <input matInput type="number" formControlName="billedGst" />
-    </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'tender.workExpenditure' | translate }}</mat-label>
+          <span matTextPrefix>₹&nbsp;</span>
+          <input matInput type="number" formControlName="workExpenditure" />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'tender.extraGstBill' | translate }}</mat-label>
-      <input matInput type="number" formControlName="extraGstBill" />
-    </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'tender.gstTotal' | translate }}</mat-label>
+          <span matTextPrefix>₹&nbsp;</span>
+          <input matInput type="number" formControlName="gstTotal" />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'tender.workExpenditure' | translate }}</mat-label>
-      <input matInput type="number" formControlName="workExpenditure" />
-    </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'tender.billedGst' | translate }}</mat-label>
+          <span matTextPrefix>₹&nbsp;</span>
+          <input matInput type="number" formControlName="billedGst" />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'tender.securityDepositPercent' | translate }}</mat-label>
-      <input matInput type="number" formControlName="securityDepositPercent" />
-    </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'tender.extraGstBill' | translate }}</mat-label>
+          <span matTextPrefix>₹&nbsp;</span>
+          <input matInput type="number" formControlName="extraGstBill" />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'tender.corporatorName' | translate }}</mat-label>
-      <input matInput formControlName="corporatorName" />
-    </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'tender.gstBillCommission' | translate }}</mat-label>
+          <span matTextPrefix>₹&nbsp;</span>
+          <input matInput type="number" formControlName="gstBillCommission" />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'tender.corporatorProtocolPercent' | translate }}</mat-label>
-      <input matInput type="number" formControlName="corporatorProtocolPercent" />
-    </mat-form-field>
+        <div class="computed-preview span-2">
+          <span class="computed-preview-label">{{ 'common.estimated' | translate }} {{ 'tender.gstFiling' | translate }}</span>
+          <span class="computed-preview-value">{{ gstFilingEstimate | currency:'INR':'symbol':'1.0-0' }}</span>
+        </div>
 
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'tender.gstBillCommission' | translate }}</mat-label>
-      <input matInput type="number" formControlName="gstBillCommission" />
-    </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'tender.securityDepositPercent' | translate }}</mat-label>
+          <input matInput type="number" formControlName="securityDepositPercent" />
+          <span matTextSuffix>%</span>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'tender.corporatorProtocolPercent' | translate }}</mat-label>
+          <input matInput type="number" formControlName="corporatorProtocolPercent" />
+          <span matTextSuffix>%</span>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="span-2">
+          <mat-label>{{ 'tender.corporatorName' | translate }}</mat-label>
+          <input matInput formControlName="corporatorName" />
+        </mat-form-field>
+      </div>
+    </mat-expansion-panel>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">

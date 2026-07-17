@@ -1,31 +1,15 @@
-<h1 class="page-title">{{ 'dashboard.title' | translate }}</h1>
-
-<mat-card class="filter-card">
-  <mat-card-content class="filter-row">
-    <mat-form-field appearance="outline" class="filter-field">
-      <mat-label>{{ 'dashboard.fromDate' | translate }}</mat-label>
-      <input matInput [matDatepicker]="fromPicker" [(ngModel)]="fromDate" />
-      <mat-datepicker-toggle matIconSuffix [for]="fromPicker"></mat-datepicker-toggle>
-      <mat-datepicker #fromPicker></mat-datepicker>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="filter-field">
-      <mat-label>{{ 'dashboard.toDate' | translate }}</mat-label>
-      <input matInput [matDatepicker]="toPicker" [(ngModel)]="toDate" />
-      <mat-datepicker-toggle matIconSuffix [for]="toPicker"></mat-datepicker-toggle>
-      <mat-datepicker #toPicker></mat-datepicker>
-    </mat-form-field>
-
-    <div class="filter-actions">
-      <button mat-flat-button color="primary" (click)="load()">{{ 'dashboard.apply' | translate }}</button>
-      <button mat-stroked-button (click)="clearFilters()">{{ 'dashboard.clear' | translate }}</button>
-    </div>
-  </mat-card-content>
-</mat-card>
+<div class="dashboard-hero">
+  <span class="dashboard-hero-icon"><mat-icon>space_dashboard</mat-icon></span>
+  <div>
+    <div class="dashboard-hero-greeting">{{ 'dashboard.greeting' | translate:{ name: currentUser()?.name ?? '' } }}</div>
+    <h1 class="dashboard-hero-title">{{ 'dashboard.title' | translate }}</h1>
+  </div>
+</div>
 
 @if (summary(); as s) {
   <div class="summary-grid">
     <mat-card class="stat-card">
+      <span class="icon-badge"><mat-icon>work</mat-icon></span>
       <div class="stat-label">{{ 'dashboard.totalWorks' | translate }}</div>
       <div class="stat-value" [pulseOnChange]="s.totalWorkCount">{{ s.totalWorkCount }}</div>
       <div class="stat-breakdown">
@@ -34,33 +18,38 @@
     </mat-card>
 
     <mat-card class="stat-card">
+      <span class="icon-badge tone-tender"><mat-icon>trending_up</mat-icon></span>
       <div class="stat-label">{{ 'dashboard.totalTenderProfit' | translate }}</div>
       <div class="stat-value" [pulseOnChange]="s.totalTenderProfit">{{ s.totalTenderProfit | currency:'INR':'symbol':'1.0-0' }}</div>
     </mat-card>
 
     <mat-card class="stat-card">
+      <span class="icon-badge tone-commission"><mat-icon>handshake</mat-icon></span>
       <div class="stat-label">{{ 'dashboard.totalCommissionEarned' | translate }}</div>
       <div class="stat-value" [pulseOnChange]="s.totalCommissionEarned">{{ s.totalCommissionEarned | currency:'INR':'symbol':'1.0-0' }}</div>
     </mat-card>
 
     <mat-card class="stat-card">
+      <span class="icon-badge tone-private"><mat-icon>pending_actions</mat-icon></span>
       <div class="stat-label">{{ 'dashboard.pendingPaymentsPrivate' | translate }}</div>
       <div class="stat-value" [pulseOnChange]="s.totalPrivatePendingPayments">{{ s.totalPrivatePendingPayments | currency:'INR':'symbol':'1.0-0' }}</div>
     </mat-card>
 
     <mat-card class="stat-card">
+      <span class="icon-badge tone-tender"><mat-icon>receipt_long</mat-icon></span>
       <div class="stat-label">{{ 'dashboard.totalTenderBilled' | translate }}</div>
       <div class="stat-value" [pulseOnChange]="s.totalTenderBilledAmount">{{ s.totalTenderBilledAmount | currency:'INR':'symbol':'1.0-0' }}</div>
     </mat-card>
 
     <mat-card class="stat-card">
+      <span class="icon-badge tone-private"><mat-icon>home_work</mat-icon></span>
       <div class="stat-label">{{ 'dashboard.totalPrivateValue' | translate }}</div>
       <div class="stat-value" [pulseOnChange]="s.totalPrivateWorkAmount">{{ s.totalPrivateWorkAmount | currency:'INR':'symbol':'1.0-0' }}</div>
     </mat-card>
   </div>
 
   <mat-card class="section-card clickable-card" (click)="goToTenderWorks()">
-    <div class="section-title"><span class="icon-badge"><mat-icon>gavel</mat-icon></span>{{ 'dashboard.section1Title' | translate }}</div>
+    <div class="section-title"><span class="icon-badge tone-tender"><mat-icon>gavel</mat-icon></span>{{ 'dashboard.section1Title' | translate }}</div>
     <div class="figure-grid">
       <div><span class="figure-label">{{ 'dashboard.totalTenderAmount' | translate }}</span><span class="figure-value">{{ s.tenderSummary.totalTenderAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'dashboard.totalBillReceived' | translate }}</span><span class="figure-value">{{ s.tenderSummary.totalBillReceived | currency:'INR':'symbol':'1.0-0' }}</span></div>
@@ -75,7 +64,7 @@
   </mat-card>
 
   <mat-card class="section-card clickable-card" (click)="goToCommissionWorks()">
-    <div class="section-title"><span class="icon-badge"><mat-icon>handshake</mat-icon></span>{{ 'dashboard.section2Title' | translate }}</div>
+    <div class="section-title"><span class="icon-badge tone-commission"><mat-icon>handshake</mat-icon></span>{{ 'dashboard.section2Title' | translate }}</div>
     <div class="figure-grid">
       <div><span class="figure-label">{{ 'dashboard.totalTenderAmount' | translate }}</span><span class="figure-value">{{ s.commissionSummary.totalTenderAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'dashboard.totalBillReceived' | translate }}</span><span class="figure-value">{{ s.commissionSummary.totalBillReceived | currency:'INR':'symbol':'1.0-0' }}</span></div>
@@ -90,7 +79,7 @@
   </mat-card>
 
   <mat-card class="section-card clickable-card" (click)="goToPrivateWorks()">
-    <div class="section-title"><span class="icon-badge"><mat-icon>home_work</mat-icon></span>{{ 'dashboard.section3Title' | translate }}</div>
+    <div class="section-title"><span class="icon-badge tone-private"><mat-icon>home_work</mat-icon></span>{{ 'dashboard.section3Title' | translate }}</div>
     <div class="figure-grid">
       <div><span class="figure-label">{{ 'dashboard.totalWorkAmount' | translate }}</span><span class="figure-value">{{ s.privateWorkSummary.totalWorkAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'dashboard.paymentReceived' | translate }}</span><span class="figure-value">{{ s.privateWorkSummary.paymentReceived | currency:'INR':'symbol':'1.0-0' }}</span></div>

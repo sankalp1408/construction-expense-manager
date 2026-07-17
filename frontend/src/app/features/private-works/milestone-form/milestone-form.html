@@ -10,6 +10,7 @@
     <mat-form-field appearance="outline">
       <mat-label>{{ 'milestone.percentOfTotal' | translate }}</mat-label>
       <input matInput type="number" formControlName="percentOfTotal" />
+      <span matTextSuffix>%</span>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -23,8 +24,11 @@
 
     <mat-form-field appearance="outline">
       <mat-label>{{ 'milestone.paidAmount' | translate }}</mat-label>
+      <span matTextPrefix>₹&nbsp;</span>
       <input matInput type="number" formControlName="paidAmount" />
     </mat-form-field>
+
+    <p class="field-hint span-2">{{ 'milestone.syncHint' | translate }}</p>
 
     <mat-form-field appearance="outline">
       <mat-label>{{ 'milestone.paidDate' | translate }}</mat-label>

@@ -2,8 +2,10 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { CurrencyPipe } from '@angular/common';
 import { CommissionWork } from '../../../core/models/commission-work.model';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
@@ -13,7 +15,10 @@ export interface CommissionWorkFormDialogData {
 
 @Component({
   selector: 'app-commission-work-form',
-  imports: [ReactiveFormsModule, MatDialogModule, MatButtonModule, MatFormFieldModule, MatInputModule, TranslatePipe],
+  imports: [
+    ReactiveFormsModule, MatDialogModule, MatButtonModule, MatExpansionModule, MatFormFieldModule, MatInputModule,
+    CurrencyPipe, TranslatePipe
+  ],
   templateUrl: './commission-work-form.html',
   styleUrl: './commission-work-form.scss'
 })
@@ -35,6 +40,14 @@ export class CommissionWorkForm {
     extraGstBill: [this.w?.extraGstBill ?? 0],
     gstBillCommission: [this.w?.gstBillCommission ?? 0]
   });
+
+  // Display-only preview of CommissionWorkService.ToDto's CommissionAmount
+  // formula (TenderWorkAmount * CommissionPercent / 100) — not a form
+  // control, never submitted.
+  get commissionAmountPreview(): number {
+    const { tenderWorkAmount, commissionPercent } = this.form.getRawValue();
+    return (tenderWorkAmount || 0) * (commissionPercent || 0) / 100;
+  }
 
   save(): void {
     if (this.form.invalid) {

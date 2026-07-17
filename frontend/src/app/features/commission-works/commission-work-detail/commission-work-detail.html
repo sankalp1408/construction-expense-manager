@@ -14,7 +14,7 @@
   </div>
 
   <mat-card class="section-card">
-    <div class="section-title"><span class="icon-badge"><mat-icon>account_balance_wallet</mat-icon></span>{{ 'commission.financialSummary' | translate }}</div>
+    <div class="section-title"><span class="icon-badge tone-commission"><mat-icon>account_balance_wallet</mat-icon></span>{{ 'commission.financialSummary' | translate }}</div>
     <div class="figure-grid">
       <div><span class="figure-label">{{ 'commission.tenderWorkAmount' | translate }}</span><span class="figure-value">{{ w.tenderWorkAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'commission.commissionAmount' | translate }} ({{ w.commissionPercent }}%)</span><span class="figure-value highlight" [pulseOnChange]="w.commissionAmount">{{ w.commissionAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
@@ -28,7 +28,7 @@
 
   <mat-card class="section-card">
     <div class="section-header">
-      <div class="section-title"><span class="icon-badge"><mat-icon>storefront</mat-icon></span>{{ 'tender.gstVendorSection' | translate }}</div>
+      <div class="section-title"><span class="icon-badge tone-commission"><mat-icon>storefront</mat-icon></span>{{ 'tender.gstVendorSection' | translate }}</div>
       <button mat-stroked-button color="primary" (click)="addGstVendor()">
         <mat-icon>add</mat-icon> {{ 'tender.addVendorEntry' | translate }}
       </button>

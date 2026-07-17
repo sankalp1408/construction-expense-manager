@@ -2,18 +2,52 @@
   height: 100dvh;
 }
 
+// mat-sidenav-content becomes a flex column so `.shell-footer` sits at the
+// bottom of the viewport on short pages (classic "sticky footer" layout)
+// instead of floating up under the content, while still scrolling normally
+// to the true end of the document on long pages.
+mat-sidenav-content {
+  display: flex;
+  flex-direction: column;
+}
+
 .shell-sidenav {
   width: 260px;
 }
 
 .sidenav-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   padding: 20px 16px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.user-avatar {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--gradient-brand);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.user-details {
+  min-width: 0;
 }
 
 .user-name {
   font-weight: 600;
   font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .user-role {
@@ -29,10 +63,47 @@
   position: sticky;
   top: 0;
   z-index: 10;
+  // mat-toolbar[color=primary] doesn't reliably paint a background under
+  // this app's M3 token overrides, so the header rendered plain white —
+  // give it an explicit brand gradient instead.
+  background: var(--gradient-brand);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+
+  // !important: Material's own icon-button color tokens otherwise win the
+  // cascade tie against a plain inherited `color`, the same class of issue
+  // hit earlier with `.mat-mdc-dialog-actions` margin and `.fab-add` position.
+  ::ng-deep .mat-icon {
+    color: #fff !important;
+  }
+  ::ng-deep .mat-mdc-icon-button {
+    --mdc-icon-button-icon-color: #fff;
+    --mat-icon-button-state-layer-color: #fff;
+  }
+}
+
+.toolbar-brand-mark {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+
+  mat-icon {
+    font-size: 17px;
+    width: 17px;
+    height: 17px;
+  }
 }
 
 .toolbar-title {
   margin-left: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
   font-size: 1.1rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -48,6 +119,7 @@
 .toolbar-user-name {
   font-size: 0.85rem;
   font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
   max-width: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -66,11 +138,39 @@
 }
 
 .shell-main {
+  flex: 1 0 auto;
+  width: 100%;
   padding: 12px;
   max-width: 960px;
   margin: 0 auto;
+  box-sizing: border-box;
 
   @media (min-width: 600px) {
     padding: 20px;
+  }
+}
+
+.shell-footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 10px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-faint);
+  font-size: 0.72rem;
+  text-align: center;
+}
+
+.shell-footer-version {
+  font-variant-numeric: tabular-nums;
+
+  &::before {
+    content: '\2022';
+    margin-right: 10px;
+    opacity: 0.6;
   }
 }

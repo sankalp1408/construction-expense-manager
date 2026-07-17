@@ -14,7 +14,7 @@
   </div>
 
   <mat-card class="section-card">
-    <div class="section-title"><span class="icon-badge"><mat-icon>account_balance_wallet</mat-icon></span>{{ 'tender.financialSummary' | translate }}</div>
+    <div class="section-title"><span class="icon-badge tone-tender"><mat-icon>account_balance_wallet</mat-icon></span>{{ 'tender.financialSummary' | translate }}</div>
     <div class="figure-grid">
       <div><span class="figure-label">{{ 'tender.tenderAmount' | translate }}</span><span class="figure-value">{{ w.tenderAmount | currency:'INR':'symbol':'1.0-0' }}</span></div>
       <div><span class="figure-label">{{ 'tender.tenderFee' | translate }}</span><span class="figure-value">{{ w.tenderFee | currency:'INR':'symbol':'1.0-0' }}</span></div>
@@ -36,7 +36,7 @@
 
   <mat-card class="section-card">
     <div class="section-header">
-      <div class="section-title"><span class="icon-badge"><mat-icon>receipt_long</mat-icon></span>{{ 'tender.raBillsSection' | translate }}</div>
+      <div class="section-title"><span class="icon-badge tone-tender"><mat-icon>receipt_long</mat-icon></span>{{ 'tender.raBillsSection' | translate }}</div>
       <button mat-stroked-button color="primary" (click)="addRaBill()">
         <mat-icon>add</mat-icon> {{ 'tender.addRaBill' | translate }}
       </button>
@@ -84,7 +84,7 @@
 
   <mat-card class="section-card">
     <div class="section-header">
-      <div class="section-title"><span class="icon-badge"><mat-icon>storefront</mat-icon></span>{{ 'tender.gstVendorSection' | translate }}</div>
+      <div class="section-title"><span class="icon-badge tone-tender"><mat-icon>storefront</mat-icon></span>{{ 'tender.gstVendorSection' | translate }}</div>
       <button mat-stroked-button color="primary" (click)="addGstVendor()">
         <mat-icon>add</mat-icon> {{ 'tender.addVendorEntry' | translate }}
       </button>

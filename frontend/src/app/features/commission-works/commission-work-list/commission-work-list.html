@@ -19,7 +19,10 @@
       </div>
     </mat-card>
   } @empty {
-    <p class="empty-text">{{ 'commission.empty' | translate }}</p>
+    <div class="empty-state">
+      <span class="empty-state-icon tone-commission"><mat-icon>handshake</mat-icon></span>
+      <p class="empty-state-text">{{ 'commission.empty' | translate }}</p>
+    </div>
   }
 </div>
 

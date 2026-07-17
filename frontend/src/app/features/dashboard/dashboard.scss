@@ -1,13 +1,45 @@
-// Shared filter-card/stat-tile/section-card/figure-grid chrome lives in the
-// global styles.scss. The Dashboard's filter bar additionally needs to stay
-// sticky while scrolling — that's specific to this page (Reports' filter
-// card isn't sticky), so it stays here.
-.filter-card {
-  position: sticky;
-  top: 56px;
-  z-index: 8;
+// Branded greeting banner above the stat grid.
+.dashboard-hero {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 4px 0 18px;
+  padding: 20px 22px;
+  border-radius: var(--radius-lg);
+  background: var(--gradient-brand);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+}
+.dashboard-hero-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-  @media (min-width: 600px) {
-    top: 64px;
+  mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
   }
+}
+.dashboard-hero-greeting {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+}
+.dashboard-hero-title {
+  margin: 2px 0 0;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+// Stat tiles get a small icon badge above the label for quicker scanning.
+.stat-card .icon-badge {
+  margin-bottom: 10px;
 }
